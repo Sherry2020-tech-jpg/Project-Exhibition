@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dream Atlas | Mind Universe</title>
+<style>
+:root{--violet:#8b5cf6;--cyan:#fbbf24;--magenta:#e879f9;--danger:#f87171;--success:#34d399}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:radial-gradient(circle at 15% 8%,rgba(139,92,246,.18),transparent 45%),radial-gradient(circle at 85% 15%,rgba(251,191,36,.12),transparent 45%),radial-gradient(circle at 50% 105%,rgba(251,191,36,.12),transparent 55%),linear-gradient(180deg,#030014,#0a0620 55%,#030014);color:#e2e8f0;overflow-x:hidden;min-height:100vh}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+header,section,footer{position:relative;z-index:1}
+section{scroll-margin-top:140px}
+
+/* ===== LANGUAGE TOGGLE ===== */
+.lang-toggle{display:flex;align-items:center;gap:6px;background:rgba(139,92,246,.12);border:1.5px solid rgba(139,92,246,.35);border-radius:12px;padding:6px 8px;margin-left:10px}
+.lang-toggle button{background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .3s ease}
+.lang-toggle button.active{background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;box-shadow:0 4px 15px rgba(139,92,246,.4)}
+.lang-toggle button:hover:not(.active){color:#fbbf24;background:rgba(251,191,36,.08)}
+
+/* ===== NAVBAR ===== */
+header{position:sticky;top:20px;z-index:999}
+.navbar{max-width:1100px;margin:auto;padding:14px 30px;display:flex;justify-content:space-between;align-items:center;border-radius:20px;background:rgba(6,3,20,.85);backdrop-filter:blur(14px);border:1px solid rgba(139,92,246,.3);box-shadow:0 10px 30px rgba(0,0,0,.55),inset 0 1px 0 rgba(139,92,246,.35);position:relative;overflow:hidden}
+.navbar::before{content:"";position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;background:linear-gradient(45deg,#8b5cf6,#fbbf24,#e879f9,#8b5cf6);background-size:400% 400%;border-radius:22px;z-index:-1;animation:borderGlow 6s ease infinite;opacity:.55}
+@keyframes borderGlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.logo{display:flex;align-items:center;gap:14px}
+.logo-badge{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#fbbf24);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;box-shadow:0 10px 25px rgba(139,92,246,.45);position:relative;animation:pulseBadge 3s ease-in-out infinite;text-decoration:none}
+.logo-badge::before{content:"";position:absolute;inset:-7px;border-radius:50%;border:1.5px dashed rgba(251,191,36,.55);animation:orbitSpin 10s linear infinite}
+@keyframes orbitSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes pulseBadge{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.logo-main{font-weight:800;font-size:17px;color:#fff;display:block}
+.logo-sub{font-size:11px;color:#94a3b8;display:block}
+.nav-links{display:flex;gap:34px;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;color:#cbd5e1;font-weight:600;position:relative;padding:6px 14px;border-radius:10px;transition:.3s ease;overflow:hidden}
+.nav-links a::before{content:"";position:absolute;bottom:0;left:50%;width:0;height:2px;background:linear-gradient(90deg,#8b5cf6,#fbbf24);transition:all .3s ease;transform:translateX(-50%)}
+.nav-links a:hover{background:rgba(139,92,246,.12);color:#fbbf24;transform:translateY(-2px)}
+.nav-links a:hover::before{width:80%}
+@media(max-width:900px){header{top:10px;padding:0 10px}.navbar{padding:12px 20px;border-radius:16px;flex-wrap:wrap;gap:12px}.logo-main{font-size:15px}.logo-badge{width:38px;height:38px;font-size:12px}.nav-links{gap:8px;flex-wrap:wrap;justify-content:center;width:100%}.nav-links a{font-size:13px;padding:5px 10px}.lang-toggle{margin-left:0;padding:4px 6px}.lang-toggle button{font-size:12px;padding:5px 10px}}
+@media(max-width:640px){header{top:8px;padding:0 8px}.navbar{padding:10px 14px;border-radius:14px;flex-direction:column;align-items:center;gap:10px}.logo-sub{display:none}.nav-links{gap:4px;width:100%;justify-content:center}.nav-links a{font-size:12px;padding:5px 10px}}
+
+/* ===== HERO ===== */
+.hero{position:relative;padding:130px 20px 70px;text-align:center;overflow:hidden}
+.hero-orb{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(251,191,36,.5),rgba(139,92,246,.35) 45%,rgba(3,0,20,0) 72%);filter:blur(12px);animation:orbFloat 7s ease-in-out infinite;pointer-events:none}
+.hero-orb::before{content:"🌙";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:64px;filter:drop-shadow(0 0 30px rgba(251,191,36,.8))}
+@keyframes orbFloat{0%,100%{margin-top:0}50%{margin-top:-24px}}
+.hero h1{font-size:56px;font-weight:900;color:#fff;text-shadow:0 20px 60px rgba(139,92,246,.4);line-height:1.1;position:relative;opacity:0;animation:heroIn 1s ease .1s forwards}
+@keyframes heroIn{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero h1 span{background:linear-gradient(90deg,#fbbf24,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero p{max-width:680px;margin:22px auto 0;color:#a5b4fc;font-size:18px;line-height:1.7;position:relative;opacity:0;animation:heroIn .9s ease .5s forwards}
+@media(max-width:640px){.hero h1{font-size:36px}.hero-orb{width:240px;height:240px}}
+
+/* ===== SECTION HEAD ===== */
+.section-head{text-align:center;max-width:720px;margin:0 auto 50px;padding:0 20px}
+.fancy-head h2{font-size:40px;font-weight:900;margin-bottom:14px;position:relative;display:inline-block}
+.fancy-head h2::after{content:"";position:absolute;left:50%;bottom:-14px;width:90px;height:4px;background:linear-gradient(90deg,#8b5cf6,#fbbf24);border-radius:4px;transform:translateX(-50%)}
+.fancy-head p{max-width:640px;margin:28px auto 0;font-size:17px;color:#a5b4fc}
+
+/* ===== DASHBOARD ===== */
+.dash{max-width:1100px;margin:20px auto 60px;padding:0 20px}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.dash-card{position:relative;background:linear-gradient(180deg,rgba(38,22,84,.55),rgba(10,6,25,.8));border-radius:22px;padding:28px 22px;text-align:center;border:1.5px solid rgba(139,92,246,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 20px 40px rgba(0,0,0,.35);transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease}
+.dash-card:hover{transform:translateY(-8px);border-color:rgba(251,191,36,.5);box-shadow:0 25px 60px rgba(139,92,246,.25)}
+.dash-card .dicon{font-size:30px;margin-bottom:10px;display:block}
+.dash-card h4{font-size:13px;color:#94a3b8;font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.dash-card .dval{font-size:30px;font-weight:900;background:linear-gradient(90deg,#fbbf24,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.dash-card .dsub{font-size:12px;color:#64748b;margin-top:6px}
+@media(max-width:900px){.dash-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ===== ATLAS CARDS ===== */
+.atlas{max-width:1200px;margin:40px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;perspective:1200px}
+.card{position:relative;display:flex;flex-direction:column;background:linear-gradient(180deg,rgba(38,22,84,.55),rgba(10,6,25,.8));border-radius:28px;padding:40px 30px;border:1.5px solid rgba(139,92,246,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 25px 60px rgba(0,0,0,.4);transition:transform .5s cubic-bezier(.16,1,.3,1),box-shadow .5s ease,border .4s ease}
+.card:hover{transform:translateY(-14px) scale(1.02);border-color:rgba(251,191,36,.5);box-shadow:0 45px 90px rgba(139,92,246,.3)}
+.icon{width:70px;height:70px;border-radius:20px;background:linear-gradient(135deg,#8b5cf6,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:20px;box-shadow:0 18px 40px rgba(139,92,246,.4);transition:transform .4s ease}
+.card:hover .icon{transform:scale(1.08) rotate(-5deg)}
+.card h3{font-size:21px;font-weight:800;margin-bottom:8px;color:#fff}
+.card p.tagline{font-size:13px;color:#fbbf24;font-weight:600;margin-bottom:10px}
+.card p.desc{color:#94a3b8;font-size:14px;line-height:1.6;margin-bottom:14px;min-height:66px}
+.mapchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.mapchips span{font-size:11px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);color:#c7d2fe}
+.card .cstat{font-size:12px;color:#64748b;margin-bottom:16px}
+.card .cstat b{color:#fbbf24}
+.launch{display:inline-block;width:100%;text-align:center;background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;padding:13px 24px;border-radius:14px;text-decoration:none;font-weight:700;font-size:14px;cursor:pointer;border:none;box-shadow:0 15px 35px rgba(139,92,246,.35);transition:transform .3s ease,box-shadow .3s ease;font-family:inherit}
+.launch:hover{transform:translateY(-3px);box-shadow:0 25px 50px rgba(251,191,36,.4)}
+.launch{margin-top:auto}
+@media(max-width:1024px){.atlas{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.atlas{grid-template-columns:1fr}}
+
+/* ===== TIPS ===== */
+.tips{max-width:1100px;margin:20px auto 90px;padding:0 20px}
+.tip-box{background:linear-gradient(180deg,rgba(38,22,84,.45),rgba(10,6,25,.7));border:1.5px solid rgba(139,92,246,.3);border-radius:24px;padding:36px}
+.tip-box h3{font-size:20px;margin-bottom:18px;color:#fff}
+.tip-box ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tip-box li{color:#a5b4fc;font-size:14px;line-height:1.6;padding-left:24px;position:relative}
+.tip-box li::before{content:"✦";position:absolute;left:0;color:#fbbf24}
+@media(max-width:700px){.tip-box ul{grid-template-columns:1fr}}
+
+/* ===== MODAL ===== */
+.modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-bg{position:absolute;inset:0;background:rgba(3,0,20,.9);backdrop-filter:blur(10px)}
+.modal-box{position:relative;width:100%;max-width:680px;background:linear-gradient(180deg,#160b36,#0b0620);border:1.5px solid rgba(139,92,246,.45);border-radius:26px;padding:34px 30px;box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 60px rgba(139,92,246,.15);animation:modalIn .4s cubic-bezier(.16,1,.3,1);max-height:92vh;overflow-y:auto}
+@keyframes modalIn{from{opacity:0;transform:translateY(40px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(139,92,246,.45);background:rgba(139,92,246,.1);color:#e2e8f0;font-size:16px;cursor:pointer;transition:.3s;z-index:5}
+.modal-close:hover{background:rgba(248,113,113,.2);border-color:var(--danger);color:#fff}
+.modal-title{font-size:24px;font-weight:800;margin-bottom:4px;background:linear-gradient(90deg,#fbbf24,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.modal-sub{font-size:13px;color:#94a3b8;margin-bottom:22px}
+.stage{display:flex;flex-direction:column;gap:16px}
+
+/* forms */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fgrid .full{grid-column:1/-1}
+@media(max-width:640px){.fgrid{grid-template-columns:1fr}}
+.flabel{font-size:12px;font-weight:700;color:#94a3b8;display:block;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.fin{width:100%;padding:12px 15px;border-radius:12px;border:1.5px solid rgba(139,92,246,.45);background:rgba(10,6,32,.8);color:#fff;font-size:15px;outline:none;font-family:inherit;transition:.3s}
+.fin:focus{border-color:#fbbf24;box-shadow:0 0 22px rgba(251,191,36,.22)}
+textarea.fin{resize:vertical;min-height:100px;line-height:1.6}
+select.fin{cursor:pointer}
+input[type=range].fin{padding:0;height:34px;accent-color:#8b5cf6;border:none;background:transparent}
+.lucid-row{display:flex;align-items:center;gap:10px;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.3);border-radius:12px;padding:12px 15px;cursor:pointer}
+.lucid-row input{width:18px;height:18px;accent-color:#fbbf24;cursor:pointer}
+.lucid-row span{font-size:14px;font-weight:600;color:#e9d5ff}
+
+/* journal entries */
+.jentry{background:rgba(139,92,246,.07);border:1.5px solid rgba(139,92,246,.28);border-radius:16px;padding:16px 18px;margin-bottom:12px;position:relative;transition:border .3s ease}
+.jentry:hover{border-color:rgba(251,191,36,.45)}
+.jentry h4{font-size:16px;color:#fff;margin-bottom:4px;padding-right:70px}
+.jentry .jmeta{font-size:11.5px;color:#64748b;margin-bottom:8px}
+.jentry .jmeta b{color:#fbbf24}
+.jentry p{font-size:13.5px;color:#a5b4fc;line-height:1.6}
+.jdel{position:absolute;top:14px;right:14px;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.4);color:#fca5a5;font-size:11px;font-weight:700;padding:5px 12px;border-radius:9px;cursor:pointer;transition:.3s}
+.jdel:hover{background:rgba(248,113,113,.3);color:#fff}
+.jlucid{display:inline-block;font-size:10px;font-weight:800;padding:2px 9px;border-radius:999px;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.45);color:#6ee7b7;margin-left:8px}
+.jempty{text-align:center;color:#64748b;font-size:14px;padding:30px 10px}
+
+/* symbols */
+.symsearch{position:relative}
+.symchips{display:flex;flex-wrap:wrap;gap:8px}
+.symchip{font-size:12px;font-weight:700;padding:7px 15px;border-radius:999px;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.35);color:#cbd5e1;cursor:pointer;transition:.25s;font-family:inherit}
+.symchip:hover{border-color:#fbbf24;color:#fde68a}
+.symchip.on{background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;border-color:transparent}
+.symcard{background:rgba(139,92,246,.07);border:1.5px solid rgba(139,92,246,.28);border-radius:16px;padding:16px 18px;animation:modalIn .4s cubic-bezier(.16,1,.3,1)}
+.symcard h4{font-size:16px;color:#fff;margin-bottom:4px}
+.symcard .scat{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#fbbf24;margin-bottom:8px;display:block}
+.symcard p{font-size:13.5px;color:#a5b4fc;line-height:1.65}
+
+/* lucid */
+.lucid-big{padding:20px;border-radius:20px;font-size:18px}
+.stat-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.stat-chip{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.35);border-radius:14px;padding:12px 18px;text-align:center;min-width:105px}
+.stat-chip b{display:block;font-size:24px;color:#fbbf24}
+.stat-chip span{font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px}
+.pbar{width:100%;height:10px;border-radius:8px;background:rgba(139,92,246,.15);overflow:hidden}
+.pbar>div{height:100%;background:linear-gradient(90deg,#8b5cf6,#fbbf24,#e879f9);border-radius:8px;transition:width .5s ease}
+
+/* compass */
+.moodrow{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.moodrow .mlab{font-size:13px;font-weight:700;width:90px;color:#cbd5e1}
+.moodrow .mbar{flex:1;height:14px;border-radius:8px;background:rgba(139,92,246,.12);overflow:hidden}
+.moodrow .mbar>div{height:100%;border-radius:8px}
+.moodrow .mval{font-size:13px;font-weight:800;color:#fbbf24;width:34px;text-align:right}
+
+/* techniques */
+.tech{background:rgba(139,92,246,.07);border:1.5px solid rgba(139,92,246,.28);border-radius:16px;overflow:hidden}
+.tech-head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;cursor:pointer;transition:background .3s ease}
+.tech-head:hover{background:rgba(139,92,246,.12)}
+.tech-head h4{font-size:15.5px;color:#fff}
+.tech-head .arr{color:#fbbf24;font-weight:900;transition:transform .3s ease}
+.tech.open .arr{transform:rotate(180deg)}
+.tech-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.tech.open .tech-body{max-height:300px}
+.tech-body p{padding:0 18px 16px;font-size:13.5px;color:#a5b4fc;line-height:1.7}
+
+.big-btn{background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;padding:14px 40px;border-radius:999px;font-weight:800;font-size:15px;border:none;cursor:pointer;box-shadow:0 15px 40px rgba(139,92,246,.45);transition:.3s;font-family:inherit}
+.big-btn:hover{transform:translateY(-3px) scale(1.03)}
+.stage-msg{font-size:15px;color:#c7d2fe;text-align:center;line-height:1.6}
+.wordct{font-size:12px;color:#64748b;text-align:right}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(120px);background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;padding:14px 30px;border-radius:999px;font-weight:700;font-size:14px;box-shadow:0 20px 50px rgba(139,92,246,.5);z-index:1200;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+footer{background:rgba(6,3,20,.9);color:#94a3b8;text-align:center;padding:50px 20px;border-top:1px solid rgba(139,92,246,.25);margin-top:40px}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<header>
+<nav class="navbar">
+    <div class="logo">
+        <a class="logo-badge" href="MindUniverse.html">MU</a>
+        <div class="logo-text">
+            <span class="logo-main">Mind Universe</span>
+            <span class="logo-sub" data-key="tagline">Explore the cosmos within.</span>
+        </div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="MindUniverse.html" data-key="nav_home">Home</a></li>
+        <li><a href="#atlas" data-key="nav_atlas">Atlas</a></li>
+        <li><a href="#dashboard" data-key="nav_dash">Dashboard</a></li>
+        <li><a href="#tips" data-key="nav_tips">Protocol</a></li>
+        <li><a href="MindUniverse.html#contact" data-key="nav_contact">Contact</a></li>
+        <li><div class="lang-toggle">
+            <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+            <button id="btn-ur" onclick="setLang('ur')">UR</button>
+        </div></li>
+    </ul>
+</nav>
+</header>
+
+<section class="hero">
+    <div class="hero-orb"></div>
+    <h1 data-key="hero_title">Dream <span>Atlas</span></h1>
+    <p data-key="hero_sub">Decode the hidden language of your dreams. Journal every night, decode symbols, train lucid awareness — and watch your personal dream map come alive.</p>
+</section>
+
+<section id="dashboard" class="dash">
+    <div class="section-head fancy-head">
+        <h2 data-key="dash_title">Your Dream Dashboard</h2>
+        <p data-key="dash_sub">Everything is saved privately on this device. Consistency turns scattered dreams into a clear map of your mind.</p>
+    </div>
+    <div class="dash-grid">
+        <div class="dash-card"><span class="dicon">🌙</span><h4 data-key="d1">Dreams Logged</h4><div class="dval" id="dDreams">0</div><div class="dsub" data-key="d1s">journal entries</div></div>
+        <div class="dash-card"><span class="dicon">✨</span><h4 data-key="d2">Lucid Dreams</h4><div class="dval" id="dLucid">0</div><div class="dsub" data-key="d2s">conscious while dreaming</div></div>
+        <div class="dash-card"><span class="dicon">✋</span><h4 data-key="d3">Reality Checks</h4><div class="dval" id="dChecks">0</div><div class="dsub" data-key="d3s">awareness training</div></div>
+        <div class="dash-card"><span class="dicon">🔥</span><h4 data-key="d4">Logging Streak</h4><div class="dval" id="dStreak">0</div><div class="dsub" data-key="d4s">days in a row</div></div>
+    </div>
+</section>
+
+<section id="atlas">
+    <div class="section-head fancy-head">
+        <h2 data-key="atlas_title">Atlas Instruments</h2>
+        <p data-key="atlas_sub">Six professional tools for the modern oneirologist. Open any instrument to begin.</p>
+    </div>
+    <div class="atlas">
+        <div class="card"><div class="icon">📝</div><h3 data-key="c1t">Dream Journal</h3><p class="tagline" data-key="c1tag">Recall · Recording</p><p class="desc" data-key="c1d">Log every dream with mood, clarity and lucidity. Journaling is the single strongest driver of dream recall.</p><div class="mapchips"><span>Hippocampus</span><span>Memory Consolidation</span><span>Recall</span></div><p class="cstat" data-key="stat1">Entries: <b id="cs-journal">0</b></p><button class="launch" onclick="openTool('journal')" data-key="btn1">Open Journal</button></div>
+        <div class="card"><div class="icon">🔮</div><h3 data-key="c2t">Symbol Decoder</h3><p class="tagline" data-key="c2tag">Interpretation · Meaning</p><p class="desc" data-key="c2d">Search 32 classic dream symbols drawn from psychology and cultural dream research.</p><div class="mapchips"><span>Symbolism</span><span>Psychology</span><span>Archetypes</span></div><p class="cstat" data-key="stat2">Symbols: <b>32</b></p><button class="launch" onclick="openTool('symbols')" data-key="btn2">Open Decoder</button></div>
+        <div class="card"><div class="icon">✋</div><h3 data-key="c3t">Lucid Trainer</h3><p class="tagline" data-key="c3tag">Awareness · Habit</p><p class="desc" data-key="c3d">Reality checks build the habit of questioning waking life — so you question your dreams too.</p><div class="mapchips"><span>Prefrontal Cortex</span><span>Metacognition</span><span>Habit</span></div><p class="cstat" data-key="stat3">Checked today: <b id="cs-checks">0</b></p><button class="launch" onclick="openTool('lucid')" data-key="btn3">Start Checks</button></div>
+        <div class="card"><div class="icon">🧭</div><h3 data-key="c4t">Dream Compass</h3><p class="tagline" data-key="c4tag">Analysis · Patterns</p><p class="desc" data-key="c4d">An automatic analysis of your journal — mood balance, lucid percentage, average clarity and your recurring symbols.</p><div class="mapchips"><span>Pattern Recognition</span><span>Analytics</span></div><p class="cstat" data-key="stat4">Based on your entries</p><button class="launch" onclick="openTool('compass')" data-key="btn4">View Analysis</button></div>
+        <div class="card"><div class="icon">🌌</div><h3 data-key="c5t">Lucid Techniques</h3><p class="tagline" data-key="c5tag">MILD · WBTB · FILD</p><p class="desc" data-key="c5d">The five proven induction techniques used by lucid dreamers worldwide, explained step by step.</p><div class="mapchips"><span>Sleep Science</span><span>Induction</span></div><p class="cstat" data-key="stat5">5 techniques</p><button class="launch" onclick="openTool('techniques')" data-key="btn5">Learn</button></div>
+        <div class="card"><div class="icon">💭</div><h3 data-key="c6t">Recall Booster</h3><p class="tagline" data-key="c6tag">Morning recall · Fragments</p><p class="desc" data-key="c6d">A guided morning exercise: write everything you remember, even fragments, and save it straight to your journal.</p><div class="mapchips"><span>Recall</span><span>Journaling</span></div><p class="cstat" data-key="stat6">Takes 3 minutes</p><button class="launch" onclick="openTool('recall')" data-key="btn6">Start Recall</button></div>
+    </div>
+</section>
+
+<section id="tips" class="tips">
+    <div class="tip-box">
+        <h3 data-key="tips_title">✦ Dream Protocol</h3>
+        <ul>
+            <li data-key="tip1">Keep your journal beside the bed — recall fades 90% within 10 minutes of waking.</li>
+            <li data-key="tip2">Write in present tense ("I am flying") — it re-activates dream memory more strongly.</li>
+            <li data-key="tip3">Do reality checks on triggers: doorways, phone checks, and every time something feels strange.</li>
+            <li data-key="tip4">Set a gentle intention before sleep: "Tonight I will notice I am dreaming."</li>
+            <li data-key="tip5">Wake back to bed after 5–6 hours of sleep — REM is longest then, prime time for lucidity.</li>
+            <li data-key="tip6">Review your symbols weekly in the Compass — recurring themes are your mind's headlines.</li>
+        </ul>
+    </div>
+</section>
+
+<!-- TOOL MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-bg" onclick="closeTool()"></div>
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeTool()">✕</button>
+        <div class="modal-title" id="mTitle"></div>
+        <div class="modal-sub" id="mSub"></div>
+        <div class="stage" id="stage"></div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+<span data-key="footer">&copy; 2026 Mind Universe Intelligence Systems</span>
+</footer>
+
+<script>
+/* ===== STARFIELD ===== */
+const canvas=document.getElementById('stars'),ctx=canvas.getContext('2d');
+let W,H,starsArr=[],shooters=[];
+function initStars(){starsArr=[];const c=Math.min(240,Math.floor(W*H/9000));for(let i=0;i<c;i++)starsArr.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+.3,tw:Math.random()*Math.PI*2,sp:.015+Math.random()*.04});}
+function resize(){W=canvas.width=innerWidth;H=canvas.height=innerHeight;initStars();}
+resize();addEventListener('resize',resize);
+setInterval(()=>shooters.push({x:Math.random()*W*.75,y:Math.random()*H*.35,len:70+Math.random()*90,ang:Math.PI/5,speed:5+Math.random()*4,life:1}),2200);
+(function draw(){ctx.clearRect(0,0,W,H);
+for(const s of starsArr){s.tw+=s.sp;ctx.globalAlpha=.25+Math.abs(Math.sin(s.tw))*.75;ctx.fillStyle='#c7d2fe';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();}
+ctx.globalAlpha=1;shooters=shooters.filter(s=>s.life>0);
+for(const s of shooters){s.x+=Math.cos(s.ang)*s.speed;s.y+=Math.sin(s.ang)*s.speed;s.life-=.018;
+const tx=s.x-Math.cos(s.ang)*s.len,ty=s.y-Math.sin(s.ang)*s.len;
+const g=ctx.createLinearGradient(s.x,s.y,tx,ty);g.addColorStop(0,'rgba(167,139,250,'+s.life+')');g.addColorStop(1,'rgba(251,191,36,0)');
+ctx.strokeStyle=g;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(tx,ty);ctx.stroke();}
+requestAnimationFrame(draw);})();
+
+/* ============================================================
+   LANGUAGE SYSTEM — full EN/UR page conversion
+============================================================ */
+const translations={
+"en":{"tagline":"Explore the cosmos within.","nav_home":"Home","nav_atlas":"Atlas","nav_dash":"Dashboard","nav_tips":"Protocol","nav_contact":"Contact",
+"hero_title":"Dream <span>Atlas</span>","hero_sub":"Decode the hidden language of your dreams. Journal every night, decode symbols, train lucid awareness — and watch your personal dream map come alive.",
+"dash_title":"Your Dream Dashboard","dash_sub":"Everything is saved privately on this device. Consistency turns scattered dreams into a clear map of your mind.",
+"d1":"Dreams Logged","d1s":"journal entries","d2":"Lucid Dreams","d2s":"conscious while dreaming","d3":"Reality Checks","d3s":"awareness training","d4":"Logging Streak","d4s":"days in a row",
+"atlas_title":"Atlas Instruments","atlas_sub":"Six professional tools for the modern oneirologist. Open any instrument to begin.",
+"c1t":"Dream Journal","c1tag":"Recall · Recording","c1d":"Log every dream with mood, clarity and lucidity. Journaling is the single strongest driver of dream recall.","stat1":"Entries: <b id=\"cs-journal\">0</b>","btn1":"Open Journal",
+"c2t":"Symbol Decoder","c2tag":"Interpretation · Meaning","c2d":"Search 32 classic dream symbols drawn from psychology and cultural dream research.","stat2":"Symbols: <b>32</b>","btn2":"Open Decoder",
+"c3t":"Lucid Trainer","c3tag":"Awareness · Habit","c3d":"Reality checks build the habit of questioning waking life — so you question your dreams too.","stat3":"Checked today: <b id=\"cs-checks\">0</b>","btn3":"Start Checks",
+"c4t":"Dream Compass","c4tag":"Analysis · Patterns","c4d":"An automatic analysis of your journal — mood balance, lucid percentage, average clarity and your recurring symbols.","stat4":"Based on your entries","btn4":"View Analysis",
+"c5t":"Lucid Techniques","c5tag":"MILD · WBTB · FILD","c5d":"The five proven induction techniques used by lucid dreamers worldwide, explained step by step.","stat5":"5 techniques","btn5":"Learn",
+"c6t":"Recall Booster","c6tag":"Morning recall · Fragments","c6d":"A guided morning exercise: write everything you remember, even fragments, and save it straight to your journal.","stat6":"Takes 3 minutes","btn6":"Start Recall",
+"tips_title":"✦ Dream Protocol",
+"tip1":"Keep your journal beside the bed — recall fades 90% within 10 minutes of waking.","tip2":"Write in present tense (\"I am flying\") — it re-activates dream memory more strongly.","tip3":"Do reality checks on triggers: doorways, phone checks, and every time something feels strange.","tip4":"Set a gentle intention before sleep: \"Tonight I will notice I am dreaming.\"","tip5":"Wake back to bed after 5–6 hours of sleep — REM is longest then, prime time for lucidity.","tip6":"Review your symbols weekly in the Compass — recurring themes are your mind's headlines.",
+"footer":"&copy; 2026 Mind Universe Intelligence Systems",
+"g_j_t":"Dream Journal","g_j_s":"Record your dreams the moment you wake.",
+"g_sy_t":"Symbol Decoder","g_sy_s":"Search a symbol or pick a category.",
+"g_lu_t":"Lucid Trainer","g_lu_s":"Tap every time you do a reality check. Goal: 10 per day.",
+"g_co_t":"Dream Compass","g_co_s":"Automatic analysis of everything you have logged.",
+"g_te_t":"Lucid Techniques","g_te_s":"Five proven induction methods. Tap to expand.",
+"g_re_t":"Recall Booster","g_re_s":"Write every fragment you remember — even one word counts.",
+"fj_title":"Dream title","fj_date":"Date","fj_mood":"Mood","fj_clarity":"Clarity","fj_lucid":"I was lucid (conscious in the dream)","fj_story":"What happened in the dream?","fj_save":"Save Dream","fj_entries":"Your Entries","fj_delete":"Delete",
+"mood_calm":"Calm","mood_happy":"Happy","mood_anxious":"Anxious","mood_fear":"Fear","mood_confused":"Confused",
+"fj_nostory":"Describe your dream first — even one sentence is enough.","fj_saved":"Dream saved to your atlas ✓","fj_deleted":"Entry deleted",
+"fj_empty":"No dreams yet. Tonight, write your first one here.",
+"sy_search_ph":"Search symbols… e.g. water, flying, teeth","sy_all":"All","sy_none":"No symbols match your search.",
+"cat_animals":"Animals","cat_nature":"Nature","cat_places":"Places","cat_objects":"Objects","cat_situations":"Situations",
+"lu_today":"Today","lu_total":"Total","lu_streak":"Day streak","lu_goal":"Daily goal: 10 checks","lu_tap":"✋ I did a reality check",
+"co_entries":"Entries","co_lucid_pct":"Lucid","co_avg_clarity":"Avg clarity","co_top":"Recurring symbols in your journal","co_none":"Log a few dreams and the Compass will map your patterns here.","co_moods":"Mood balance",
+"te_mild_t":"MILD — Mnemonic Induction","te_mild_d":"As you fall asleep, repeat with intent: \"Next time I am dreaming, I will remember I am dreaming.\" Visualize yourself becoming lucid in a recent dream. Repeat until you drift off.",
+"te_wbtb_t":"WBTB — Wake Back To Bed","te_wbtb_d":"Sleep 5–6 hours, wake for 10–20 minutes, read about lucid dreaming, then return to bed with the intention to become lucid. You enter REM with heightened awareness.",
+"te_fild_t":"FILD — Finger Induced LD","te_fild_d":"After WBTB, lie still and gently tap two fingers as if playing piano, barely moving them. After ~30 seconds, do a reality check — you may already be in a dream.",
+"te_ssild_t":"SSILD — Senses Induction","te_ssild_d":"Cycle your attention: listen for sounds, watch the darkness, feel your body. Repeat the cycle slowly. The shifting focus keeps your mind awake as your body sleeps.",
+"te_journal_t":"Dream Journaling","te_journal_d":"Not an induction itself, but the foundation of all techniques. Strong recall makes lucid moments recognizable — you cannot become lucid in dreams you don't remember.",
+"re_ph":"Write everything — people, places, feelings, fragments…","re_save":"Save to Journal","re_words":"words","re_hint":"Don't filter or judge. Fragments grow into full recall with practice.",
+"toast_saved":"Saved to your journal ✓"},
+"ur":{"tagline":"Andar ke kosmos ko explore karein.","nav_home":"Home","nav_atlas":"Atlas","nav_dash":"Dashboard","nav_tips":"Protocol","nav_contact":"Rabta",
+"hero_title":"Dream <span>Atlas</span>","hero_sub":"Apne khwabon ki chhupi hui zabaan samjhein. Har raat journal likhein, symbols decode karein, lucid awareness train karein — aur apna dream map zinda hote dekhein.",
+"dash_title":"Aapka Dream Dashboard","dash_sub":"Sab kuch is device par mehfooz rehta hai. Musalsal momalat bikhre khwabon ko aapke zehan ka saaf map bana deta hai.",
+"d1":"Logged Khwab","d1s":"journal entries","d2":"Lucid Khwab","d2s":"khwab mein hosh","d3":"Reality Checks","d3s":"awareness training","d4":"Logging Streak","d4s":"lagatar din",
+"atlas_title":"Atlas Instruments","atlas_sub":"Modern oneirologist ke liye 6 professional tools. Koi bhi instrument kholein aur shuru karein.",
+"c1t":"Dream Journal","c1tag":"Recall · Recording","c1d":"Har khwab ko mood, clarity aur lucidity ke saath likhein. Journaling dream recall ki sab se taqatwar aadat hai.","stat1":"Entries: <b id=\"cs-journal\">0</b>","btn1":"Journal Kholein",
+"c2t":"Symbol Decoder","c2tag":"Interpretation · Meaning","c2d":"Psychology aur cultural dream research se liye gaye 32 classic dream symbols ko search karein.","stat2":"Symbols: <b>32</b>","btn2":"Decoder Kholein",
+"c3t":"Lucid Trainer","c3tag":"Awareness · Habit","c3d":"Reality checks aapko jagti zindagi mein sawal poochne ki aadat dete hain — phir aap khwab mein bhi poochte hain.","stat3":"Aaj checks: <b id=\"cs-checks\">0</b>","btn3":"Checks Shuru Karein",
+"c4t":"Dream Compass","c4tag":"Analysis · Patterns","c4d":"Aapke journal ka automatic analysis — mood balance, lucid percentage, average clarity aur bar bar aane wale symbols.","stat4":"Aapki entries par mabni","btn4":"Analysis Dekhein",
+"c5t":"Lucid Techniques","c5tag":"MILD · WBTB · FILD","c5d":"Duniya bhar ke lucid dreamers ke 5 proven induction techniques, step by step.","stat5":"5 techniques","btn5":"Seekhein",
+"c6t":"Recall Booster","c6tag":"Subah ka recall · Tukray","c6d":"Ek guided subahi exercise: jo bhi yaad ho likhein, chahe tukray hon, aur seedha journal mein save karein.","stat6":"Sirf 3 minute","btn6":"Recall Shuru Karein",
+"tips_title":"✦ Dream Protocol",
+"tip1":"Journal bistar ke paas rakhein — baidari ke 10 minute mein 90% recall khatam ho jata hai.","tip2":"Haal ki zabaan mein likhein (\"Main ur raha hoon\") — is se dream memory zor se jagti hai.","tip3":"Door se guzarnay, phone dekhne, ya ajeeb lagne par reality check karein.","tip4":"Sone se pehle iraada banayein: \"Aaj raat main khwab dekhunga ke main khwab dekh raha hoon.\"","tip5":"5–6 ghante sone ke baad uthein — REM sab se lamba hota hai, lucidity ka behtareen waqt.","tip6":"Har hafte Compass mein symbols review karein — dohrane wale themes aapke zehan ki headlines hain.",
+"footer":"&copy; 2026 Mind Universe Intelligence Systems",
+"g_j_t":"Dream Journal","g_j_s":"Baidari ke foran baad apne khwab likhein.",
+"g_sy_t":"Symbol Decoder","g_sy_s":"Symbol search karein ya category chunein.",
+"g_lu_t":"Lucid Trainer","g_lu_s":"Har reality check par tap karein. Goal: rozana 10.",
+"g_co_t":"Dream Compass","g_co_s":"Aapki likhi hui cheezon ka automatic analysis.",
+"g_te_t":"Lucid Techniques","g_te_s":"5 proven induction methods. Expand karne ke liye tap karein.",
+"g_re_t":"Recall Booster","g_re_s":"Jo bhi yaad ho likhein — chahe ek lafz hi ho.",
+"fj_title":"Khwab ka title","fj_date":"Tareekh","fj_mood":"Mood","fj_clarity":"Clarity","fj_lucid":"Main lucid tha (khwab mein hosh)","fj_story":"Khwab mein kya hua?","fj_save":"Khwab Save Karein","fj_entries":"Aapki Entries","fj_delete":"Delete",
+"mood_calm":"Sukoon","mood_happy":"Khushi","mood_anxious":"Fikr","mood_fear":"Khauf","mood_confused":"Confusion",
+"fj_nostory":"Pehle khwab likhein — ek jumla bhi kaafi hai.","fj_saved":"Khwab aapke atlas mein save ho gaya ✓","fj_deleted":"Entry delete ho gayi",
+"fj_empty":"Abhi koi khwab nahi. Aaj raat pehla khwab yahin likhein.",
+"sy_search_ph":"Symbols search karein… masalan water, flying, teeth","sy_all":"Sab","sy_none":"Aap ki search se koi symbol match nahi hua.",
+"cat_animals":"Janwar","cat_nature":"Fitrat","cat_places":"Jaghein","cat_objects":"Cheezein","cat_situations":"Mauqeat",
+"lu_today":"Aaj","lu_total":"Kul","lu_streak":"Din lagatar","lu_goal":"Rozana goal: 10 checks","lu_tap":"✋ Maine reality check kiya",
+"co_entries":"Entries","co_lucid_pct":"Lucid","co_avg_clarity":"Avg clarity","co_top":"Aapke journal ke dohrane wale symbols","co_none":"Kuch khwab likhein — Compass aapke patterns yahan map karega.","co_moods":"Mood balance",
+"te_mild_t":"MILD — Mnemonic Induction","te_mild_d":"Sote waqt iraade se dohraein: \"Jab agli dafa main khwab dekhunga, mujhe yaad hoga ke main khwab dekh raha hoon.\" Kisi haal khwab mein khud ko lucid hote hue imagine karein.",
+"te_wbtb_t":"WBTB — Wake Back To Bed","te_wbtb_d":"5–6 ghante soyein, 10–20 minute uth kar lucid dreaming parhain, phir iraade ke saath wapas bistar par jayein. AapREM mein hoshmandi se dakhil honge.",
+"te_fild_t":"FILD — Finger Induced LD","te_fild_d":"WBTB ke baad, sookhe paas pade ungliyon se piano ki tarah halka sa tap karein. Takreeban 30 second baad reality check karein — ho sakta hai aap pehle se khwab mein hon.",
+"te_ssild_t":"SSILD — Senses Induction","te_ssild_d":"Apni tawajjo ghumayein: awazein sunein, andhere ko dekhein, apne jism ko mehsoos karein. Cycle aahista dohraein. Ye shifting focus jism ko sulate hue zehan ko jagaye rakhta hai.",
+"te_journal_t":"Dream Journaling","te_journal_d":"Khud induction nahi, lekin tamam techniques ki bunyaad. Mazboot recall lucid lamhon ko pehchannay deta hai — aap us khwab mein lucid nahi ho sakte jise yaad nahi karte.",
+"re_ph":"Sab kuch likhein — log, jaghein, jazbaat, tukray…","re_save":"Journal Mein Save Karein","re_words":"lafz","re_hint":"Filter ya judge na karein. Tukray mashq se poori yaaddasht ban jate hain.",
+"toast_saved":"Journal mein save ho gaya ✓"}};
+function loadLang(){try{return localStorage.getItem('minduniverse_lang')||'en';}catch(e){return 'en';}}
+function saveLang(l){try{localStorage.setItem('minduniverse_lang',l);}catch(e){}}
+let currentLang=loadLang();
+function t(k){return (translations[currentLang]&&translations[currentLang][k])||translations.en[k]||k;}
+function setLang(lang){currentLang=lang;saveLang(lang);
+document.getElementById('btn-en').classList.toggle('active',lang==='en');
+document.getElementById('btn-ur').classList.toggle('active',lang==='ur');
+document.querySelectorAll('[data-key]').forEach(el=>{const k=el.getAttribute('data-key');if(translations[lang]&&translations[lang][k])el.innerHTML=translations[lang][k];});
+renderDash();renderCardStats();if(modal.classList.contains('open')&&activeTool){TOOLS[activeTool]();}}
+document.addEventListener('DOMContentLoaded',()=>{setLang(currentLang);});
+
+/* ============================================================
+   DREAM SYMBOL DATABASE (32 symbols)
+============================================================ */
+const SYMBOLS=[
+{n:"Snake",c:"animals",en:"Transformation, hidden threats, or healing energy. Context matters — a calm snake often signals renewal; an attacking one signals unresolved anxiety.",ur:"Tabdeeli, chhupay huay khatray ya shifa ki tawanai. Scene dekhein — pur-sukoon sanp aksar naye aaghaz ki alamat hai; hamla karna wala sanp unresolved fikr ki."},
+{n:"Dog",c:"animals",en:"Loyalty, friendship and protection. A friendly dog reflects trust in your circle; an aggressive one may point to betrayal fears.",ur:"Wafadari, dosti aur hifazat. Dostana kutta aap ke halaq par aitmaad dikhata hai; jhagraloo kutta khayanat ke khadshay ki taraf ishara kar sakta hai."},
+{n:"Cat",c:"animals",en:"Independence, intuition and feminine energy. A cat appearing often suggests you are reconnecting with your instinctive side.",ur:"Khud-mukhtari, intuition aur zananana tawanai. Bar bar billi aana is baat ki alamat hai ke aap apne jazbati pehlu se dobara jurr rahe hain."},
+{n:"Bird",c:"animals",en:"Freedom, aspiration and messages. Flying birds mirror rising ambitions; a caged bird reflects feeling restricted.",ur:"Azadi, umda armaan aur paigham. Urte parinde buland iradon ki akas hain; pinjray ka parinda tangi ka ehsas dikhata hai."},
+{n:"Spider",c:"animals",en:"Creativity, patience — or feeling trapped in a web of your own making. Notice whether you observe it or flee it.",ur:"Takhleeq, sabr — ya khud bunay jaal mein phanse hone ka ehsas. Dekhein ke aap usay dekhte hain ya bhaagte hain."},
+{n:"Fish",c:"animals",en:"Abundance, ideas swimming beneath the surface of awareness. Catching one often means an insight is ready to surface.",ur:"Barkat, awareness ke neeche tairti hui khayalat. Machli pakarna aksar is baat ki alamat hai ke koi insight ubharne ko hai."},
+{n:"Water",c:"nature",en:"Emotions and the unconscious. Calm water reflects emotional balance; turbulent water signals overwhelming feelings.",ur:"Jazbaat aur unconscious. Pur-sukoon pani emotional balance dikhata hai; toofani pani ghaleb jazbat ki alamat hai."},
+{n:"Ocean",c:"nature",en:"The vast unconscious. Standing at its edge suggests you are facing something immense in your inner world.",ur:"Behad unconscious. Is ke kinare khana is baat ki alamat hai ke aap apne andar kisi bohat baray cheez se ru-baru hain."},
+{n:"Fire",c:"nature",en:"Passion, anger, or purification. Controlled fire signals creative drive; uncontrolled fire points to burning stress.",ur:"Jazba, ghussa ya safai. Qaaboo mein aag takhleeqi josh dikhati hai; be-qaboo aag jalta hua stress batati hai."},
+{n:"Tree",c:"nature",en:"Growth, roots, family. A healthy tree reflects strong foundations; a dying one suggests neglected personal growth.",ur:"Nash-o-numa, jarein, khandan. Sehat-mand darakht mazboot bunyaad dikhata hai; murjhata darakht neglected personal growth ki alamat hai."},
+{n:"Moon",c:"nature",en:"Cycles, intuition and the feminine. Phases often mirror your emotional rhythm and hidden moods.",ur:"Chakkar, intuition aur zananana pehlu. Chand ke manazir aap ki jazbati raftaar aur chhupay moods ki akas hote hain."},
+{n:"Storm",c:"nature",en:"Emotional turbulence or approaching change. Surviving a storm in a dream signals resilience you underestimate.",ur:"Jazbati hangaami ya aane wali tabdeeli. Khwab mein toofan se nikalna aap ki underrated mazbooti ki alamat hai."},
+{n:"House",c:"places",en:"The self. Different rooms represent different aspects of your personality — explore which room appears.",ur:"Khud. Mukhtalif kamray aap ki shakhsiyat ke mukhtalif pehlu hain — dekhein kaun sa kamra nazar aata hai."},
+{n:"School",c:"places",en:"Lessons, evaluation, or old pressures. Being unprepared there often reflects current performance anxiety.",ur:"Sabaq, jaanch, ya puranay dabao. Wahan tayyar na hona aksar current performance anxiety dikhata hai."},
+{n:"Door",c:"places",en:"Opportunity and transition. An open door invites change; a locked one shows felt barriers.",ur:"Mauqa aur guzar. Khula darwaza tabdeeli ki dawat hai; band darwaza mehsoos rukavat dikhata hai."},
+{n:"Bridge",c:"places",en:"Connection between two states of life. Crossing one signals you are moving through a transition.",ur:"Zindagi ke do daur ka pull. Us par chalna is baat ki alamat hai ke aap tabdeeli se guzar rahe hain."},
+{n:"Tunnel",c:"places",en:"A passage through difficulty toward light. Emerging from a tunnel reflects hope after struggle.",ur:"Roshni ki taraf mushkil se guzar-gaah. Tunnel se nikalna jadd-o-jihad ke baad umeed dikhata hai."},
+{n:"Garden",c:"places",en:"Inner cultivation — what you are growing in yourself. Its condition mirrors your self-care.",ur:"Andar ki kaasht — aap khud mein kya ug rahe hain. Is ki halat aap ki self-care ki akas hai."},
+{n:"Teeth",c:"objects",en:"Confidence, appearance, communication. Losing teeth often tracks anxiety about how others see you.",ur:"Aitmaad, shakal-o-surat, guftagu. Daant girna aksar is fikr ki alamat hai ke doosre aap ko kaisa dekhte hain."},
+{n:"Mirror",c:"objects",en:"Self-reflection and identity. Looking into one signals a period of honest self-examination.",ur:"Khud-nigrani aur pehchaan. Aaina dekhna sachche self-examination ke daur ki alamat hai."},
+{n:"Keys",c:"objects",en:"Access, solutions, control. Finding keys suggests you have — or are seeking — the answer to something.",ur:"Rasta, halat, control. Chaabi milna is baat ki alamat hai ke jawab aap ke paas hai ya talash mein hai."},
+{n:"Clock",c:"objects",en:"Time pressure or life rhythm. A stopped clock can signal a wish to pause a rushing phase of life.",ur:"Waqt ka dabao ya zindagi ki raftaar. Ruka ghadi bhaagti zindagi ko rokne ki khwahish dikhata hai."},
+{n:"Phone",c:"objects",en:"Communication and connection. A broken phone often mirrors feeling unheard or cut off.",ur:"Rabta aur talluq. Toota phone aksar sunay na jane ya kati hui khabar ki akas hai."},
+{n:"Book",c:"objects",en:"Knowledge, stories, hidden chapters of your life. Reading one suggests integrating new understanding.",ur:"Ilm, kahaniyan, zindagi ke chhupay bab. Kitaab parhna nayi samaj ko shamil karne ki alamat hai."},
+{n:"Flying",c:"situations",en:"Freedom, release from limitations. Difficulty flying may reflect low confidence in a current goal.",ur:"Azadi, hudood se rihai. Urne mein dushwari current goal par kam aitmaad dikhata hai."},
+{n:"Falling",c:"situations",en:"Loss of control or fear of failure. Often appears during periods of instability — a signal to ground yourself.",ur:"Control ka khona ya nakami ka khauf. Ghair-mustahkam daur mein aksar aata hai — apne aap ko thamne ka ishara."},
+{n:"Chasing",c:"situations",en:"Avoidance. Whatever chases you represents something you are not facing while awake.",ur:"Guraiz. Jo bhi aap ka peecha karta hai woh cheez hai jise aap baidari mein nahi dekhna chahte."},
+{n:"Being Lost",c:"situations",en:"Uncertainty about direction. Lost in a familiar place suggests confusion about something you thought you knew.",ur:"Simt ki ghair-yaqeeni. Jaani-pehchani jagah par bhatakna us cheez ki confusion dikhata hai jise aap jaante samajhte thay."},
+{n:"Death",c:"situations",en:"Rarely literal — it signals endings and transformation. Something in your life is completing its cycle.",ur:"Kam hi asal hota hai — yeh ikhtitaam aur tabdeeli ki alamat hai. Aap ki zindagi ki koi cheez apna chakkar mukammal kar rahi hai."},
+{n:"Exam",c:"situations",en:"Evaluation pressure. Not being ready reflects fear of being judged on unprepared ground.",ur:"Jaanch ka dabao. Tayyar na hona is khauf ki akas hai ke aapko ghair-tayyar zameen par parakha jayega."},
+{n:"Naked in public",c:"situations",en:"Vulnerability, fear of exposure. It appears when authenticity feels risky.",ur:"Kamzori, zahir hone ka khauf. Yeh tab aata hai jab sachchai ko khatarnaak samjha jaye."},
+{n:"Vehicle",c:"objects",en:"Control over your life direction. Who is driving matters — you, or something else?",ur:"Zindagi ki simt par control. Gari kaun chala raha hai yeh ahem hai — aap, ya koi aur?"}];
+
+/* ============================================================
+   STORAGE
+============================================================ */
+let journal=[],checks={total:0,days:{}};
+try{const j=localStorage.getItem('mu_dream_journal');if(j)journal=JSON.parse(j);}catch(e){}
+try{const c=localStorage.getItem('mu_dream_checks');if(c)checks=JSON.parse(c);}catch(e){}
+function saveJournal(){try{localStorage.setItem('mu_dream_journal',JSON.stringify(journal));}catch(e){}}
+function saveChecks(){try{localStorage.setItem('mu_dream_checks',JSON.stringify(checks));}catch(e){}}
+
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function computeStreak(){
+const days=new Set(journal.map(e=>e.date));
+let streak=0;const d=new Date();
+if(!days.has(todayStr()))d.setDate(d.getDate()-1);
+while(true){const s=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+if(days.has(s)){streak++;d.setDate(d.getDate()-1);}else break;}
+return streak;}
+
+function renderDash(){
+document.getElementById('dDreams').textContent=journal.length;
+document.getElementById('dLucid').textContent=journal.filter(e=>e.lucid).length;
+document.getElementById('dChecks').textContent=checks.total;
+document.getElementById('dStreak').textContent=computeStreak();}
+function renderCardStats(){
+const e1=document.getElementById('cs-journal');if(e1)e1.textContent=journal.length;
+const e2=document.getElementById('cs-checks');if(e2)e2.textContent=checks.days[todayStr()]||0;}
+
+/* ===== MODAL ===== */
+const modal=document.getElementById('modal'),stage=document.getElementById('stage');
+let activeTool=null;
+function openTool(name){activeTool=name;modal.classList.add('open');document.body.style.overflow='hidden';TOOLS[name]();}
+function closeTool(){modal.classList.remove('open');document.body.style.overflow='';activeTool=null;stage.innerHTML='';renderDash();renderCardStats();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTool();});
+function setHead(tt,s){document.getElementById('mTitle').textContent=tt;document.getElementById('mSub').textContent=s;}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2600);}
+function chip(l,v){return '<div class="stat-chip"><b>'+v+'</b><span>'+l+'</span></div>';}
+
+/* ============================================================
+   TOOL 1: DREAM JOURNAL
+============================================================ */
+function toolJournal(){
+setHead(t('g_j_t'),t('g_j_s'));
+const moods=['calm','happy','anxious','fear','confused'];
+function renderForm(){
+stage.innerHTML='<div class="fgrid">'
++'<div class="full"><label class="flabel">'+t('fj_title')+'</label><input class="fin" id="djTitle" maxlength="80"></div>'
++'<div><label class="flabel">'+t('fj_date')+'</label><input class="fin" id="djDate" type="date" value="'+todayStr()+'"></div>'
++'<div><label class="flabel">'+t('fj_mood')+'</label><select class="fin" id="djMood">'+moods.map(m=>'<option value="'+m+'">'+t('mood_'+m)+'</option>').join('')+'</select></div>'
++'<div class="full"><label class="flabel">'+t('fj_clarity')+' — <span id="djClV">5</span>/10</label><input class="fin" id="djClarity" type="range" min="1" max="10" value="5"></div>'
++'<div class="full"><label class="lucid-row"><input type="checkbox" id="djLucid"><span>'+t('fj_lucid')+'</span></label></div>'
++'<div class="full"><label class="flabel">'+t('fj_story')+'</label><textarea class="fin" id="djStory" rows="4"></textarea></div>'
++'</div><button class="big-btn" id="djSave">'+t('fj_save')+'</button><h3 style="font-size:16px;color:#fff;margin-top:6px">'+t('fj_entries')+' ('+journal.length+')</h3><div id="djList"></div>';
+document.getElementById('djClarity').oninput=e=>document.getElementById('djClV').textContent=e.target.value;
+document.getElementById('djSave').onclick=()=>{
+const story=document.getElementById('djStory').value.trim();
+if(!story){toast(t('fj_nostory'));return;}
+const title=document.getElementById('djTitle').value.trim()||(currentLang==='ur'?'Bila-unwan khwab':'Untitled dream');
+journal.unshift({id:Date.now(),date:document.getElementById('djDate').value||todayStr(),title:title,
+mood:document.getElementById('djMood').value,clarity:+document.getElementById('djClarity').value,
+lucid:document.getElementById('djLucid').checked,text:story});
+saveJournal();toast(t('fj_saved'));renderForm();renderDash();renderCardStats();};
+renderList();}
+function renderList(){
+const list=document.getElementById('djList');if(!list)return;
+if(!journal.length){list.innerHTML='<div class="jempty">'+t('fj_empty')+'</div>';return;}
+list.innerHTML=journal.map(e=>'<div class="jentry"><h4>'+esc(e.title)+(e.lucid?'<span class="jlucid">LUCID ✓</span>':'')+'</h4>'
++'<div class="jmeta">'+e.date+' · <b>'+t('mood_'+e.mood)+'</b> · '+t('fj_clarity')+' '+e.clarity+'/10</div><p>'+esc(e.text)+'</p>'
++'<button class="jdel" data-id="'+e.id+'">'+t('fj_delete')+'</button></div>').join('');
+list.querySelectorAll('.jdel').forEach(b=>{b.onclick=()=>{journal=journal.filter(x=>x.id!=b.dataset.id);saveJournal();toast(t('fj_deleted'));renderList();renderDash();renderCardStats();};});}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+renderForm();
+}
+
+/* ============================================================
+   TOOL 2: SYMBOL DECODER
+============================================================ */
+function toolSymbols(){
+setHead(t('g_sy_t'),t('g_sy_s'));
+stage.innerHTML='<input class="fin" id="syQ" placeholder="'+t('sy_search_ph')+'"><div class="symchips" id="syCats"></div><div id="syList"></div>';
+const cats=['all','animals','nature','places','objects','situations'];
+let cur='all';
+function renderCats(){
+document.getElementById('syCats').innerHTML=cats.map(c=>'<button class="symchip'+(c===cur?' on':'')+'" data-c="'+c+'">'+(c==='all'?t('sy_all'):t('cat_'+c))+'</button>').join('');
+document.querySelectorAll('#syCats .symchip').forEach(b=>{b.onclick=()=>{cur=b.dataset.c;renderCats();renderList();};});}
+function renderList(){
+const q=(document.getElementById('syQ').value||'').toLowerCase();
+const res=SYMBOLS.filter(s=>(cur==='all'||s.c===cur)&&s.n.toLowerCase().includes(q));
+const list=document.getElementById('syList');
+list.innerHTML=res.length?res.map(s=>'<div class="symcard"><h4>'+s.n+'</h4><span class="scat">'+(s.c==='all'?'':t('cat_'+s.c))+'</span><p>'+(currentLang==='ur'?s.ur:s.en)+'</p></div>').join('')
+:'<div class="jempty">'+t('sy_none')+'</div>';}
+document.getElementById('syQ').oninput=renderList;
+renderCats();renderList();}
+
+/* ============================================================
+   TOOL 3: LUCID TRAINER
+============================================================ */
+function toolLucid(){
+setHead(t('g_lu_t'),t('g_lu_s'));
+function render(){
+const today=checks.days[todayStr()]||0;
+const goal=Math.min(100,Math.round(today/10*100));
+// streak of check days
+let streak=0;const d=new Date();
+if(!(checks.days[todayStr()]))d.setDate(d.getDate()-1);
+while(true){const s=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+if(checks.days[s]){streak++;d.setDate(d.getDate()-1);}else break;}
+stage.innerHTML='<div class="stat-row">'+chip(t('lu_today'),today)+chip(t('lu_total'),checks.total)+chip(t('lu_streak'),streak)+'</div>'
++'<div class="pbar"><div style="width:'+goal+'%"></div></div><div class="stage-msg" style="font-size:12.5px">'+t('lu_goal')+' — '+goal+'%</div>'
++'<button class="big-btn lucid-big" id="luBtn">'+t('lu_tap')+'</button>';
+document.getElementById('luBtn').onclick=()=>{
+const k=todayStr();checks.days[k]=(checks.days[k]||0)+1;checks.total++;saveChecks();render();renderDash();renderCardStats();};}
+render();}
+
+/* ============================================================
+   TOOL 4: DREAM COMPASS
+============================================================ */
+function toolCompass(){
+setHead(t('g_co_t'),t('g_co_s'));
+if(!journal.length){stage.innerHTML='<div class="jempty">'+t('co_none')+'</div>';return;}
+const total=journal.length,lucid=journal.filter(e=>e.lucid).length;
+const avgCl=(journal.reduce((a,e)=>a+e.clarity,0)/total).toFixed(1);
+const allText=journal.map(e=>(e.title+' '+e.text).toLowerCase()).join(' ');
+const top=SYMBOLS.filter(s=>allText.includes(s.n.toLowerCase())).slice(0,6);
+const moods=['calm','happy','anxious','fear','confused'];
+const moodCols={calm:'#60a5fa',happy:'#34d399',anxious:'#fbbf24',fear:'#f87171',confused:'#fbbf24'};
+const counts={};moods.forEach(m=>counts[m]=journal.filter(e=>e.mood===m).length);
+stage.innerHTML='<div class="stat-row">'+chip(t('co_entries'),total)+chip(t('co_lucid_pct'),Math.round(lucid/total*100)+'%')+chip(t('co_avg_clarity'),avgCl+'/10')+'</div>'
++'<h3 style="font-size:15px;color:#fff">'+t('co_moods')+'</h3>'
++moods.map(m=>'<div class="moodrow"><div class="mlab">'+t('mood_'+m)+'</div><div class="mbar"><div style="width:'+(counts[m]/total*100)+'%;background:'+moodCols[m]+'"></div></div><div class="mval">'+counts[m]+'</div></div>').join('')
++'<h3 style="font-size:15px;color:#fff">'+t('co_top')+'</h3>'
++(top.length?'<div class="mapchips">'+top.map(s=>'<span>🔮 '+s.n+'</span>').join('')+'</div>':'<div class="stage-msg" style="font-size:13px">—</div>');}
+
+/* ============================================================
+   TOOL 5: LUCID TECHNIQUES
+============================================================ */
+function toolTechniques(){
+setHead(t('g_te_t'),t('g_te_s'));
+const techs=['mild','wbtb','fild','ssild','journal'];
+stage.innerHTML=techs.map(k=>'<div class="tech" data-k="'+k+'"><div class="tech-head"><h4>'+t('te_'+k+'_t')+'</h4><span class="arr">▾</span></div><div class="tech-body"><p>'+t('te_'+k+'_d')+'</p></div></div>').join('');
+stage.querySelectorAll('.tech-head').forEach(h=>{h.onclick=()=>h.parentElement.classList.toggle('open');});}
+
+/* ============================================================
+   TOOL 6: RECALL BOOSTER
+============================================================ */
+function toolRecall(){
+setHead(t('g_re_t'),t('g_re_s'));
+stage.innerHTML='<div class="stage-msg">'+t('re_hint')+'</div>'
++'<textarea class="fin" id="reText" rows="7" placeholder="'+t('re_ph')+'" style="width:100%"></textarea>'
++'<div class="wordct" id="reCount">0 '+t('re_words')+'</div>'
++'<button class="big-btn" id="reSave">'+t('re_save')+'</button>';
+const ta=document.getElementById('reText');
+ta.oninput=()=>{const w=ta.value.trim()?ta.value.trim().split(/\s+/).length:0;document.getElementById('reCount').textContent=w+' '+t('re_words');};
+document.getElementById('reSave').onclick=()=>{
+const txt=ta.value.trim();if(!txt){toast(t('fj_nostory'));return;}
+journal.unshift({id:Date.now(),date:todayStr(),title:(currentLang==='ur'?'Subah ka recall':'Morning recall'),mood:'calm',clarity:5,lucid:false,text:txt});
+saveJournal();toast(t('toast_saved'));closeTool();};}
+
+const TOOLS={journal:toolJournal,symbols:toolSymbols,lucid:toolLucid,compass:toolCompass,techniques:toolTechniques,recall:toolRecall};
+renderDash();renderCardStats();
+</script>
+</body>
+</html>
