@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mind Universe | Explore the Cosmos Within</title>
+<style>
+:root{
+    --violet:#8b5cf6;
+    --cyan:#fbbf24;
+    --magenta:#e879f9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:
+        radial-gradient(circle at 15% 8%, rgba(139,92,246,.18), transparent 45%),
+        radial-gradient(circle at 85% 15%, rgba(251,191,36,.12), transparent 45%),
+        radial-gradient(circle at 50% 105%, rgba(251,191,36,.12), transparent 55%),
+        linear-gradient(180deg,#030014,#0a0620 55%,#030014);
+    color:#e2e8f0;
+    overflow-x:hidden;
+    min-height:100vh;
+}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+header,section,footer,.image-strip,.section-head,.divider{position:relative;z-index:1}
+section{scroll-margin-top:140px}
+
+/* ===== LANGUAGE TOGGLE ===== */
+.lang-toggle{display:flex;align-items:center;gap:6px;background:rgba(139,92,246,.12);border:1.5px solid rgba(139,92,246,.35);border-radius:12px;padding:6px 8px;margin-left:10px}
+.lang-toggle button{background:transparent;border:none;color:#94a3b8;font-weight:700;font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer;transition:all .3s ease}
+.lang-toggle button.active{background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;box-shadow:0 4px 15px rgba(139,92,246,.4)}
+.lang-toggle button:hover:not(.active){color:#fbbf24;background:rgba(251,191,36,.08)}
+
+/* ===== NAVBAR ===== */
+header{position:sticky;top:20px;z-index:999}
+.navbar{max-width:1100px;margin:auto;padding:14px 30px;display:flex;justify-content:space-between;align-items:center;border-radius:20px;background:rgba(6,3,20,.85);backdrop-filter:blur(14px);border:1px solid rgba(139,92,246,.3);box-shadow:0 10px 30px rgba(0,0,0,.55), inset 0 1px 0 rgba(139,92,246,.35);position:relative;overflow:hidden}
+.navbar::before{content:"";position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;background:linear-gradient(45deg,#8b5cf6,#fbbf24,#e879f9,#8b5cf6);background-size:400% 400%;border-radius:22px;z-index:-1;animation:borderGlow 6s ease infinite;opacity:.55}
+@keyframes borderGlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.logo{display:flex;align-items:center;gap:14px}
+.logo-badge{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#fbbf24);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:14px;box-shadow:0 10px 25px rgba(139,92,246,.45);position:relative;animation:pulseBadge 3s ease-in-out infinite}
+.logo-badge::before{content:"";position:absolute;inset:-7px;border-radius:50%;border:1.5px dashed rgba(251,191,36,.55);animation:orbitSpin 10s linear infinite}
+@keyframes orbitSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes pulseBadge{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.logo-main{font-weight:800;font-size:17px;color:#fff;display:block}
+.logo-sub{font-size:11px;color:#94a3b8;display:block}
+.nav-links{display:flex;gap:34px;list-style:none;align-items:center}
+.nav-links a{text-decoration:none;color:#cbd5e1;font-weight:600;position:relative;padding:6px 14px;border-radius:10px;transition:.3s ease;overflow:hidden}
+.nav-links a::before{content:"";position:absolute;bottom:0;left:50%;width:0;height:2px;background:linear-gradient(90deg,#8b5cf6,#fbbf24);transition:all .3s ease;transform:translateX(-50%)}
+.nav-links a:hover{background:rgba(139,92,246,.12);color:#fbbf24;transform:translateY(-2px)}
+.nav-links a:hover::before{width:80%}
+@media(max-width:900px){header{top:10px;padding:0 10px}.navbar{padding:12px 20px;border-radius:16px;flex-wrap:wrap;gap:12px}.logo-main{font-size:15px}.logo-badge{width:38px;height:38px;font-size:12px}.nav-links{gap:8px;flex-wrap:wrap;justify-content:center;width:100%}.nav-links a{font-size:13px;padding:5px 10px}.lang-toggle{margin-left:0;padding:4px 6px}.lang-toggle button{font-size:12px;padding:5px 10px}}
+@media(max-width:640px){header{top:8px;padding:0 8px}.navbar{padding:10px 14px;border-radius:14px;flex-direction:column;align-items:center;gap:10px}.logo-sub{display:none}.nav-links{gap:4px;width:100%;justify-content:center}.nav-links a{font-size:12px;padding:5px 10px}}
+
+/* ===== HERO ===== */
+.hero{position:relative;padding:150px 20px 130px;text-align:center;overflow:hidden}
+.hero-orb{position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);width:360px;height:360px;border-radius:50%;background:radial-gradient(circle at 35% 30%, rgba(251,191,36,.55), rgba(139,92,246,.35) 45%, rgba(3,0,20,0) 72%);filter:blur(12px);animation:orbFloat 7s ease-in-out infinite;pointer-events:none}
+.hero-orb::before{content:"";position:absolute;inset:-6%;border-radius:50%;border:1.5px solid rgba(251,191,36,.35);animation:ringSpin 14s linear infinite}
+.hero-orb::after{content:"";position:absolute;inset:-18%;border-radius:50%;border:1px solid rgba(251,191,36,.22);animation:ringSpin 22s linear infinite reverse}
+@keyframes ringSpin{from{transform:rotate(0deg) scaleY(.42)}to{transform:rotate(360deg) scaleY(.42)}}
+@keyframes orbFloat{0%,100%{margin-top:0}50%{margin-top:-24px}}
+.hero h1{font-size:66px;font-weight:900;color:#fff;text-shadow:0 20px 60px rgba(139,92,246,.4);opacity:0;animation:heroTitle 1s ease .1s forwards;line-height:1.1;position:relative}
+@keyframes heroTitle{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+.hero h1 span{background:linear-gradient(90deg,#fbbf24,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero p{max-width:680px;margin:22px auto 0;color:#a5b4fc;font-size:19px;line-height:1.7;opacity:0;animation:heroPara .9s ease .6s forwards;position:relative}
+@keyframes heroPara{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-btns{margin-top:40px;display:flex;gap:18px;justify-content:center;flex-wrap:wrap;opacity:0;animation:heroPara .9s ease 1s forwards;position:relative}
+.btn-primary{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;padding:15px 36px;border-radius:999px;font-weight:800;text-decoration:none;font-size:15px;box-shadow:0 15px 40px rgba(139,92,246,.45);transition:.3s}
+.btn-primary:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 25px 60px rgba(251,191,36,.45)}
+.btn-ghost{display:inline-block;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.45);color:#e9d5ff;padding:15px 36px;border-radius:999px;font-weight:700;text-decoration:none;font-size:15px;backdrop-filter:blur(8px);transition:.3s}
+.btn-ghost:hover{border-color:#fbbf24;color:#fde68a;transform:translateY(-3px)}
+.scroll-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);width:26px;height:44px;border:2px solid rgba(148,163,184,.5);border-radius:20px;opacity:.7}
+.scroll-hint::before{content:"";position:absolute;top:8px;left:50%;width:4px;height:8px;margin-left:-2px;border-radius:4px;background:#fbbf24;animation:wheel 1.8s ease infinite}
+@keyframes wheel{0%{opacity:1;transform:translateY(0)}70%{opacity:0;transform:translateY(14px)}100%{opacity:0}}
+@media(max-width:640px){.hero h1{font-size:38px}.hero-orb{width:260px;height:260px}}
+
+/* ===== IMAGE STRIP ===== */
+.image-strip{position:relative;overflow:hidden;margin:-30px 0 80px;perspective:1200px}
+.strip-track{display:flex;gap:40px;width:max-content;transform-style:preserve-3d;animation:scrollImages 35s linear infinite}
+.strip-track img{width:320px;height:200px;border-radius:20px;object-fit:cover;background:#1b1240;border:1.5px solid rgba(139,92,246,.5);transform:rotateY(18deg) scale(.95);transform-origin:center;transition:transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease, border .4s ease;box-shadow:0 30px 60px rgba(0,0,0,.35), 0 10px 25px rgba(0,0,0,.15)}
+.strip-track img:hover{transform:rotateY(0deg) scale(1.08);border-color:rgba(251,191,36,.55);box-shadow:0 40px 80px rgba(139,92,246,.3)}
+@keyframes scrollImages{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ph{width:320px;height:200px;border-radius:20px;border:1.5px solid rgba(139,92,246,.5);transform:rotateY(18deg) scale(.95);box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.ph1{background:linear-gradient(135deg,#4c1d95,#0e7490)}
+.ph2{background:linear-gradient(135deg,#701a75,#155e75)}
+.ph3{background:linear-gradient(135deg,#312e81,#0f766e)}
+.ph4{background:linear-gradient(135deg,#581c87,#164e63)}
+.ph5{background:linear-gradient(135deg,#831843,#1e3a8a)}
+.ph6{background:linear-gradient(135deg,#3b0764,#134e4a)}
+
+/* ===== ABOUT ===== */
+.about-ultra{position:relative;padding:140px 20px;text-align:center;overflow:hidden;background:linear-gradient(135deg,#0b0620,#160b36);color:#fff;border-top:1px solid rgba(139,92,246,.5);border-bottom:1px solid rgba(139,92,246,.5);box-shadow:inset 0 1px 0 rgba(251,191,36,.25), inset 0 -1px 0 rgba(251,191,36,.25)}
+.about-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,.45),transparent 70%);top:-200px;left:50%;transform:translateX(-50%);filter:blur(80px);animation:floatGlow 6s ease-in-out infinite alternate}
+@keyframes floatGlow{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(40px)}}
+.about-content{position:relative;max-width:900px;margin:auto;z-index:2;padding:55px 45px;border:1px solid rgba(139,92,246,.4);border-radius:28px;background:rgba(11,6,32,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 25px 70px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.06);transition:border-color .4s ease, box-shadow .4s ease, transform .4s ease}
+.about-content:hover{transform:translateY(-5px);border-color:rgba(251,191,36,.5);box-shadow:0 30px 90px rgba(0,0,0,.45), 0 0 40px rgba(139,92,246,.15)}
+.about-content h2{font-size:48px;font-weight:900;margin-bottom:25px;background:linear-gradient(90deg,#fbbf24,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.about-content p{font-size:19px;line-height:1.8;max-width:750px;margin:auto;color:#c7d2fe}
+.about-highlights{display:flex;justify-content:center;gap:70px;margin-top:70px;flex-wrap:wrap}
+.about-highlights>div{position:relative;min-width:150px;padding:25px 30px;border:1px solid rgba(139,92,246,.3);border-radius:18px;background:rgba(22,11,54,.4);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.05), 0 15px 40px rgba(0,0,0,.3);transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease}
+.about-highlights>div:hover{transform:translateY(-8px);border-color:rgba(251,191,36,.5);box-shadow:0 20px 50px rgba(139,92,246,.2)}
+.about-highlights h3{font-size:38px;font-weight:900;color:#fbbf24;margin-bottom:8px;text-shadow:0 8px 20px rgba(251,191,36,.35)}
+.about-highlights span{font-size:14px;color:#94a3b8}
+@media(max-width:768px){.about-ultra{padding:90px 15px}.about-content{padding:40px 25px;border-radius:22px}.about-content h2{font-size:36px}.about-content p{font-size:16px}.about-highlights{gap:18px;margin-top:45px}.about-highlights>div{min-width:130px;padding:20px}.about-highlights h3{font-size:30px}}
+
+/* ===== SECTION HEAD ===== */
+.section-head{text-align:center;max-width:720px;margin:0 auto 60px}
+.fancy-head{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.16,1,.3,1)}
+.fancy-head.show{opacity:1;transform:translateY(0)}
+.fancy-head h2{font-size:42px;font-weight:900;margin-bottom:14px;position:relative;display:inline-block}
+.fancy-head h2::after{content:"";position:absolute;left:50%;bottom:-14px;width:0;height:4px;background:linear-gradient(90deg,#8b5cf6,#fbbf24);border-radius:4px;transform:translateX(-50%);transition:1s ease}
+.fancy-head.show h2::after{width:90px}
+.fancy-head p{max-width:620px;margin:28px auto 0;font-size:17px;color:#a5b4fc;opacity:0;transform:translateY(20px);transition:.8s ease .3s}
+.fancy-head.show p{opacity:1;transform:translateY(0)}
+.divider{max-width:900px;height:1px;margin:20px auto;background:linear-gradient(90deg,transparent,rgba(139,92,246,.6),rgba(251,191,36,.6),transparent)}
+
+/* ===== CREDIBILITY ===== */
+.credibility{padding:80px 20px;position:relative}
+.credibility-box{max-width:1100px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:30px;perspective:1200px}
+.cred-item{position:relative;background:linear-gradient(180deg,rgba(38,22,84,.55),rgba(10,6,25,.8));border-radius:24px;padding:36px 26px;text-align:center;border:1.5px solid rgba(139,92,246,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 20px 40px rgba(0,0,0,.35);transform:rotateX(6deg) translateY(30px);transform-style:preserve-3d;opacity:0;transition:transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease, border .4s ease}
+.cred-item.show{opacity:1;transform:rotateX(0deg) translateY(0)}
+.cred-item:hover{transform:translateY(-12px) scale(1.03);border-color:rgba(251,191,36,.5);box-shadow:0 35px 70px rgba(139,92,246,.25)}
+.cred-item::after{content:"";position:absolute;inset:0;border-radius:24px;background:radial-gradient(circle at top,rgba(251,191,36,.25),transparent 65%);opacity:0;transition:.6s ease;z-index:-1}
+.cred-item:hover::after{opacity:1}
+.cred-item span{width:60px;height:60px;border-radius:18px;background:linear-gradient(135deg,#8b5cf6,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 18px;box-shadow:0 12px 28px rgba(139,92,246,.4);transform:translateZ(30px);transition:.5s cubic-bezier(.16,1,.3,1)}
+.cred-item:hover span{transform:translateY(-6px) scale(1.08)}
+.cred-item h4{font-size:18px;font-weight:800;margin-bottom:8px;color:#fff}
+.cred-item p{font-size:14px;line-height:1.5;color:#94a3b8}
+
+/* ===== SERVICES ===== */
+.services{max-width:1200px;margin:100px auto;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:40px;perspective:1200px}
+.card{position:relative;background:linear-gradient(180deg,rgba(38,22,84,.55),rgba(10,6,25,.8));border-radius:30px;padding:48px 36px;border:1.5px solid rgba(139,92,246,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 25px 60px rgba(0,0,0,.4);transform:rotateX(8deg) translateY(40px);transform-style:preserve-3d;opacity:0;transition:transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease, border .4s ease}
+.card.show{opacity:1;transform:rotateX(0deg) translateY(0)}
+.card:hover{transform:rotateX(0deg) translateY(-20px) scale(1.04);border-color:rgba(251,191,36,.5);box-shadow:0 50px 100px rgba(139,92,246,.3)}
+.icon{width:74px;height:74px;border-radius:22px;background:linear-gradient(135deg,#8b5cf6,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:24px;box-shadow:0 18px 40px rgba(139,92,246,.4);transform:translateZ(40px);transition:transform .4s ease}
+.card:hover .icon{transform:translateZ(60px) scale(1.08)}
+.card h3{font-size:22px;font-weight:800;margin-bottom:12px;color:#fff}
+.card p{color:#94a3b8;font-size:15px;line-height:1.6}
+.card a{display:inline-block;margin-top:18px;background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;padding:12px 28px;border-radius:14px;text-decoration:none;font-weight:700;transition:transform .3s ease, box-shadow .3s ease;box-shadow:0 15px 35px rgba(139,92,246,.35)}
+.card a:hover{transform:translateY(-3px);box-shadow:0 25px 50px rgba(251,191,36,.4)}
+
+/* ===== DIMENSIONS SLIDER ===== */
+.mbti-cinematic{position:relative;padding:140px 0;overflow:hidden}
+.cinematic-bg{position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(139,92,246,.16),transparent 35%),radial-gradient(circle at bottom right,rgba(251,191,36,.12),transparent 35%)}
+.slider-shell{width:100%;overflow:hidden;margin-top:90px}
+.slider-track-3d{display:flex;gap:28px;width:max-content;padding:20px 60px;animation:cinematicSlide 50s linear infinite}
+@keyframes cinematicSlide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.slide-card{position:relative;width:250px;height:360px;flex-shrink:0;border-radius:28px;overflow:hidden;background:rgba(15,8,40,.85);border:1px solid rgba(139,92,246,.4);box-shadow:0 20px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;transition:transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease, border .6s ease}
+.slide-icon{font-size:64px;margin-bottom:18px;filter:drop-shadow(0 0 20px rgba(139,92,246,.7));transition:transform .6s ease}
+.slide-card:hover .slide-icon{transform:scale(1.2) rotate(5deg)}
+.slide-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(3,0,20,.95),rgba(3,0,20,.3),transparent);z-index:1}
+.slide-card:hover{transform:translateY(-16px) scale(1.04);border-color:rgba(251,191,36,.7);box-shadow:0 40px 120px rgba(139,92,246,.35)}
+.slide-card::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:2px;background:linear-gradient(90deg,transparent,#fbbf24,transparent);z-index:3;transition:1s ease}
+.slide-card:hover::before{left:100%}
+.slide-card h1{position:relative;z-index:2;font-size:32px;font-weight:900;color:#fff;margin:0;letter-spacing:1px}
+.slide-card span{position:relative;z-index:2;font-size:15px;color:#c7d2fe;margin-top:10px;padding:0 12px}
+@media(max-width:768px){.slide-card{width:220px;height:320px}.slide-icon{font-size:52px}.slide-card h1{font-size:27px}}
+
+/* ===== CONTACT ===== */
+.contact-modern{padding:100px 20px;background:linear-gradient(135deg,#0b0620,#160b36);text-align:center;border-radius:30px;max-width:1100px;margin:80px auto;box-shadow:0 25px 60px rgba(139,92,246,.35);position:relative;overflow:hidden;border:1px solid rgba(139,92,246,.3)}
+.contact-modern::before{content:"";position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(251,191,36,.18),transparent 65%);top:-200px;left:50%;transform:translateX(-50%);filter:blur(60px);z-index:0}
+.contact-content{position:relative;z-index:1}
+.contact-modern h2{font-size:42px;font-weight:900;color:#fff;margin-bottom:16px;text-shadow:0 5px 20px rgba(139,92,246,.35);opacity:0;transform:translateY(-40px);animation:fadeSlideDown 1s forwards}
+.contact-modern p{font-size:18px;color:#a5b4fc;margin-bottom:50px;opacity:0;transform:translateY(40px);animation:fadeSlideUp 1s forwards .3s}
+.contact-cards{display:flex;gap:25px;flex-wrap:wrap;justify-content:center}
+.contact-card{background:linear-gradient(135deg,#160b36,#0b0620);border-radius:24px;padding:35px 25px;max-width:300px;width:100%;text-align:center;transition:transform .4s ease, box-shadow .4s ease, border .4s ease;box-shadow:0 15px 40px rgba(0,0,0,.45);opacity:0;transform:translateY(50px);animation:fadeSlideUp 1s forwards .6s;border:1px solid rgba(139,92,246,.25);position:relative;overflow:hidden}
+.contact-card::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:2px;background:linear-gradient(90deg,transparent,#fbbf24,transparent);transition:left .8s ease}
+.contact-card:hover::before{left:100%}
+.contact-card:hover{transform:translateY(-10px) scale(1.02);border-color:rgba(251,191,36,.45);box-shadow:0 25px 60px rgba(139,92,246,.3)}
+.contact-card span{font-size:40px;display:block;margin-bottom:18px;filter:drop-shadow(0 0 15px rgba(139,92,246,.5));transition:transform .3s ease}
+.contact-card:hover span{transform:scale(1.2) rotate(-10deg)}
+.contact-card h3{font-size:22px;font-weight:800;color:#fff;margin-bottom:10px}
+.contact-card p{font-size:15px;color:#94a3b8;margin-bottom:20px;opacity:1;transform:none;animation:none}
+.contact-card a{display:inline-block;background:linear-gradient(135deg,#8b5cf6,#fbbf24);color:#fff;padding:12px 28px;border-radius:14px;text-decoration:none;font-weight:700;font-size:14px;box-shadow:0 10px 30px rgba(139,92,246,.35);transition:all .3s ease;position:relative;overflow:hidden;letter-spacing:.5px}
+.contact-card a::before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);transition:left .5s ease}
+.contact-card a:hover::before{left:100%}
+.contact-card a:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 20px 50px rgba(251,191,36,.4)}
+@keyframes fadeSlideDown{0%{opacity:0;transform:translateY(-40px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes fadeSlideUp{0%{opacity:0;transform:translateY(50px)}100%{opacity:1;transform:translateY(0)}}
+@media(max-width:1024px){.contact-modern{padding:80px 20px;margin:60px auto;max-width:92%}.contact-cards{flex-direction:column;align-items:center;gap:25px}.contact-card{max-width:480px}}
+@media(max-width:768px){.contact-modern{padding:70px 18px;margin:50px auto;max-width:95%}.contact-modern h2{font-size:34px}.contact-card{max-width:100%;padding:30px 20px}}
+@media(max-width:1024px){.services{grid-template-columns:repeat(2,1fr)}.credibility-box{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.services,.credibility-box{grid-template-columns:1fr}}
+
+/* ===== FOOTER ===== */
+footer{background:rgba(6,3,20,.9);color:#94a3b8;text-align:center;padding:60px 20px;border-top:1px solid rgba(139,92,246,.25)}
+</style>
+<base target="_blank">
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<header>
+<nav class="navbar">
+    <div class="logo">
+        <div class="logo-badge">MU</div>
+        <div class="logo-text">
+            <span class="logo-main">Mind Universe</span>
+            <span class="logo-sub" data-key="tagline">Explore the cosmos within.</span>
+        </div>
+    </div>
+    <ul class="nav-links">
+    <li><a href="#home" data-key="nav_home">Home</a></li>
+    <li><a href="#dimensions" data-key="nav_services">Dimensions</a></li>
+    <li><a href="#cosmos" data-key="nav_science">Cosmos</a></li>
+    <li><a href="#about" data-key="nav_about">About</a></li>
+    <li><a href="#contact" data-key="nav_contact">Contact</a></li>
+    <li><div class="lang-toggle">
+        <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+        <button id="btn-ur" onclick="setLang('ur')">UR</button>
+    </div></li>
+    </ul>
+</nav>
+</header>
+
+<section class="hero" id="home">
+    <div class="hero-orb"></div>
+    <h1 data-key="hero_title">Explore The <span>Universe Within</span></h1>
+    <p data-key="hero_sub"><b><i>Neuroscience-powered mind development that unlocks focus, creativity, memory and inner peace — like exploring a universe inside you.</i></b></p>
+    <div class="hero-btns">
+        <a href="#dimensions" class="btn-primary" data-key="hero_btn1">Begin Your Journey</a>
+        <a href="#cosmos" class="btn-ghost" data-key="hero_btn2">Discover Dimensions</a>
+    </div>
+    <div class="scroll-hint"></div>
+</section>
+
+<div class="image-strip"><div class="strip-track"><img src="images/img1.jpg" alt=""><img src="images/img2.jpg" alt=""><img src="images/img3.jpg" alt=""><img src="images/img4.jpg" alt=""><img src="images/img5.jpg" alt=""><img src="images/img6.jpg" alt=""><img src="images/img1.jpg" alt=""><img src="images/img2.jpg" alt=""><img src="images/img3.jpg" alt=""><img src="images/img4.jpg" alt=""><img src="images/img5.jpg" alt=""><img src="images/img6.jpg" alt=""></div></div>
+
+<section id="about" class="about-ultra">
+    <div class="about-glow"></div>
+    <div class="about-content">
+        <h2 data-key="about_title">About Mind Universe</h2>
+        <p data-key="about_desc"><b><i>We merge neuroscience, cosmic inspiration and cutting-edge technology to help you explore the infinite potential of your mind — one dimension at a time.</i></b></p>
+        <div class="about-highlights">
+            <div><h3>50K+</h3><span data-key="stat1">Mind Explorers</span></div>
+            <div><h3>98%</h3><span data-key="stat2">Growth Rate</span></div>
+            <div><h3 data-key="stat3_title">Global</h3><span data-key="stat3">Research Standards</span></div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="credibility" id="cosmos">
+    <div class="section-head fancy-head">
+        <h2 data-key="science_title">Powered by Neuro-Cosmos</h2>
+        <p data-key="science_sub"><b><i>Trusted neuroscience and psychology frameworks.</i></b></p>
+    </div>
+    <div class="credibility-box">
+<div class="cred-item"><span>🧬</span><h4 data-key="cred1_title">Neuroscience Based</h4><p data-key="cred1_desc">Global standards</p></div>
+<div class="cred-item"><span>📐</span><h4 data-key="cred2_title">Research Validated</h4><p data-key="cred2_desc">Scientific models</p></div>
+<div class="cred-item"><span>🔒</span><h4 data-key="cred3_title">Privacy</h4><p data-key="cred3_desc">Data protection</p></div>
+<div class="cred-item"><span>🚀</span><h4 data-key="cred4_title">Growth Focused</h4><p data-key="cred4_desc">Real transformation</p></div>
+
+    </div>
+</section>
+
+<div class="section-head fancy-head">
+    <h2 data-key="discover_title">What You'll Discover</h2>
+    <p data-key="discover_sub"><b><i>Deep mind-expanding experiences beyond ordinary brain training.</i></b></p>
+</div>
+
+<section class="services" id="dimensions">
+<div class="card"><div class="icon">🧠</div><h3 data-key="svc1_title">Neural Training</h3><p data-key="svc1_desc">Sharpen cognitive power.</p><a href="neural.html" data-key="btn_start">Start</a></div>
+<div class="card"><div class="icon">🌌</div><h3 data-key="svc2_title">Dream Atlas</h3><p data-key="svc2_desc">Decode your dreams.</p><a href="dreams.html" data-key="btn_explore">Explore</a></div>
+<div class="card"><div class="icon">🧘</div><h3 data-key="svc3_title">Meditation Cosmos</h3><p data-key="svc3_desc">Find inner peace.</p><a href="meditation.html" data-key="btn_begin">Begin</a></div>
+<div class="card"><div class="icon">⚡</div><h3 data-key="svc4_title">Focus Gravity</h3><p data-key="svc4_desc">Deep concentration.</p><a href="focus.html" data-key="btn_enter">Enter</a></div>
+<div class="card"><div class="icon">🪐</div><h3 data-key="svc5_title">Memory Nebula</h3><p data-key="svc5_desc">Never forget again.</p><a href="memory.html" data-key="btn_unlock">Unlock</a></div>
+<div class="card"><div class="icon">🚀</div><h3 data-key="svc6_title">Creative Orbits</h3><p data-key="svc6_desc">Unleash imagination.</p><a href="creativity.html" data-key="btn_ignite">Ignite</a></div>
+
+</section>
+
+<section class="mbti-cinematic">
+    <div class="cinematic-bg"></div>
+    <div class="section-head fancy-head">
+        <h2 data-key="mbti_title">12 Dimensions of Mind</h2>
+        <p data-key="mbti_sub"><b><i>Every mind is a universe — explore its dimensions.</i></b></p>
+    </div>
+    <div class="slider-shell">
+        <div class="slider-track-3d"><div class="slide-card"><div class="slide-icon">🌙</div><h1 data-key="type_mem">Memory</h1><span data-key="type_mem_sub">Archive of you</span></div><div class="slide-card"><div class="slide-icon">🎯</div><h1 data-key="type_foc">Focus</h1><span data-key="type_foc_sub">Laser of the mind</span></div><div class="slide-card"><div class="slide-icon">⚙️</div><h1 data-key="type_log">Logic</h1><span data-key="type_log_sub">Structure of thought</span></div><div class="slide-card"><div class="slide-icon">🎨</div><h1 data-key="type_cre">Creativity</h1><span data-key="type_cre_sub">Birth of ideas</span></div><div class="slide-card"><div class="slide-icon">💫</div><h1 data-key="type_emo">Emotion</h1><span data-key="type_emo_sub">Ocean of feelings</span></div><div class="slide-card"><div class="slide-icon">🔮</div><h1 data-key="type_int">Intuition</h1><span data-key="type_int_sub">Silent compass</span></div><div class="slide-card"><div class="slide-icon">💪</div><h1 data-key="type_wil">Willpower</h1><span data-key="type_wil_sub">Inner engine</span></div><div class="slide-card"><div class="slide-icon">🧿</div><h1 data-key="type_awa">Awareness</h1><span data-key="type_awa_sub">Light of presence</span></div><div class="slide-card"><div class="slide-icon">💜</div><h1 data-key="type_emp">Empathy</h1><span data-key="type_emp_sub">Bridge of hearts</span></div><div class="slide-card"><div class="slide-icon">🌈</div><h1 data-key="type_ima">Imagination</h1><span data-key="type_ima_sub">Infinite canvas</span></div><div class="slide-card"><div class="slide-icon">⏳</div><h1 data-key="type_dis">Discipline</h1><span data-key="type_dis_sub">Path of mastery</span></div><div class="slide-card"><div class="slide-icon">🌊</div><h1 data-key="type_flo">Flow</h1><span data-key="type_flo_sub">Peak state</span></div><div class="slide-card"><div class="slide-icon">🌙</div><h1 data-key="type_mem">Memory</h1><span data-key="type_mem_sub">Archive of you</span></div><div class="slide-card"><div class="slide-icon">🎯</div><h1 data-key="type_foc">Focus</h1><span data-key="type_foc_sub">Laser of the mind</span></div><div class="slide-card"><div class="slide-icon">⚙️</div><h1 data-key="type_log">Logic</h1><span data-key="type_log_sub">Structure of thought</span></div><div class="slide-card"><div class="slide-icon">🎨</div><h1 data-key="type_cre">Creativity</h1><span data-key="type_cre_sub">Birth of ideas</span></div><div class="slide-card"><div class="slide-icon">💫</div><h1 data-key="type_emo">Emotion</h1><span data-key="type_emo_sub">Ocean of feelings</span></div><div class="slide-card"><div class="slide-icon">🔮</div><h1 data-key="type_int">Intuition</h1><span data-key="type_int_sub">Silent compass</span></div><div class="slide-card"><div class="slide-icon">💪</div><h1 data-key="type_wil">Willpower</h1><span data-key="type_wil_sub">Inner engine</span></div><div class="slide-card"><div class="slide-icon">🧿</div><h1 data-key="type_awa">Awareness</h1><span data-key="type_awa_sub">Light of presence</span></div><div class="slide-card"><div class="slide-icon">💜</div><h1 data-key="type_emp">Empathy</h1><span data-key="type_emp_sub">Bridge of hearts</span></div><div class="slide-card"><div class="slide-icon">🌈</div><h1 data-key="type_ima">Imagination</h1><span data-key="type_ima_sub">Infinite canvas</span></div><div class="slide-card"><div class="slide-icon">⏳</div><h1 data-key="type_dis">Discipline</h1><span data-key="type_dis_sub">Path of mastery</span></div><div class="slide-card"><div class="slide-icon">🌊</div><h1 data-key="type_flo">Flow</h1><span data-key="type_flo_sub">Peak state</span></div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="contact" class="contact-modern">
+  <div class="contact-content">
+    <h2 data-key="contact_title">Contact Us</h2>
+    <p data-key="contact_sub">Begin your journey into the universe within — reach out today.</p>
+    <div class="contact-cards">
+      <div class="contact-card">
+        <span>📧</span>
+        <h3 data-key="email_title">Email Us</h3>
+        <p>creativebaccotiya@gmail.com</p>
+        <a href="mailto:creativebaccotiya@gmail.com" data-key="btn_send">Send Mail</a>
+      </div>
+      <div class="contact-card">
+        <span>📞</span>
+        <h3 data-key="call_title">Call Us</h3>
+        <p>+923198547089</p>
+        <a href="tel:+923198547089" data-key="btn_call">Call Now</a>
+      </div>
+      <div class="contact-card">
+        <span>🏢</span>
+        <h3 data-key="visit_title">Visit Us</h3>
+        <p>Karachi, Pakistan</p>
+        <a href="#map" data-key="btn_locate">Locate</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+<span data-key="footer">&copy; 2026 Mind Universe Intelligence Systems</span>
+</footer>
+<script>
+/* ===== STARFIELD CANVAS ===== */
+const canvas=document.getElementById('stars');
+const ctx=canvas.getContext('2d');
+let W,H,starsArr=[],shooters=[];
+function initStars(){starsArr=[];const count=Math.min(240,Math.floor(W*H/9000));for(let i=0;i<count;i++){starsArr.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.3+.3,tw:Math.random()*Math.PI*2,sp:.015+Math.random()*.04});}}
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;initStars();}
+resize();window.addEventListener('resize',resize);
+function spawnShooter(){shooters.push({x:Math.random()*W*.75,y:Math.random()*H*.35,len:70+Math.random()*90,ang:Math.PI/5,speed:5+Math.random()*4,life:1});}
+setInterval(spawnShooter,2200);
+function draw(){
+ctx.clearRect(0,0,W,H);
+for(const s of starsArr){s.tw+=s.sp;const a=.25+Math.abs(Math.sin(s.tw))*.75;ctx.globalAlpha=a;ctx.fillStyle='#c7d2fe';ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();}
+ctx.globalAlpha=1;
+shooters=shooters.filter(sh=>sh.life>0);
+for(const sh of shooters){
+sh.x+=Math.cos(sh.ang)*sh.speed;sh.y+=Math.sin(sh.ang)*sh.speed;sh.life-=.018;
+const tx=sh.x-Math.cos(sh.ang)*sh.len,ty=sh.y-Math.sin(sh.ang)*sh.len;
+const g=ctx.createLinearGradient(sh.x,sh.y,tx,ty);
+g.addColorStop(0,'rgba(167,139,250,'+sh.life+')');
+g.addColorStop(1,'rgba(251,191,36,0)');
+ctx.strokeStyle=g;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(sh.x,sh.y);ctx.lineTo(tx,ty);ctx.stroke();
+}
+requestAnimationFrame(draw);
+}
+draw();
+
+/* ===== LANGUAGE SYSTEM ===== */
+const translations = {"en": {"tagline": "Explore the cosmos within.", "nav_home": "Home", "nav_services": "Dimensions", "nav_science": "Cosmos", "nav_about": "About", "nav_contact": "Contact", "hero_title": "Explore The <span>Universe Within</span>", "hero_sub": "<b><i>Neuroscience-powered mind development that unlocks focus, creativity, memory and inner peace — like exploring a universe inside you.</i></b>", "hero_btn1": "Begin Your Journey", "hero_btn2": "Discover Dimensions", "about_title": "About Mind Universe", "about_desc": "<b><i>We merge neuroscience, cosmic inspiration and cutting-edge technology to help you explore the infinite potential of your mind — one dimension at a time.</i></b>", "stat1": "Mind Explorers", "stat2": "Growth Rate", "stat3_title": "Global", "stat3": "Research Standards", "science_title": "Powered by Neuro-Cosmos", "science_sub": "<b><i>Trusted neuroscience and psychology frameworks.</i></b>", "cred1_title": "Neuroscience Based", "cred1_desc": "Global standards", "cred2_title": "Research Validated", "cred2_desc": "Scientific models", "cred3_title": "Privacy", "cred3_desc": "Data protection", "cred4_title": "Growth Focused", "cred4_desc": "Real transformation", "discover_title": "What You'll Discover", "discover_sub": "<b><i>Deep mind-expanding experiences beyond ordinary brain training.</i></b>", "svc1_title": "Neural Training", "svc1_desc": "Sharpen cognitive power.", "btn_start": "Start", "svc2_title": "Dream Atlas", "svc2_desc": "Decode your dreams.", "btn_explore": "Explore", "svc3_title": "Meditation Cosmos", "svc3_desc": "Find inner peace.", "btn_begin": "Begin", "svc4_title": "Focus Gravity", "svc4_desc": "Deep concentration.", "btn_enter": "Enter", "svc5_title": "Memory Nebula", "svc5_desc": "Never forget again.", "btn_unlock": "Unlock", "svc6_title": "Creative Orbits", "svc6_desc": "Unleash imagination.", "btn_ignite": "Ignite", "mbti_title": "12 Dimensions of Mind", "mbti_sub": "<b><i>Every mind is a universe — explore its dimensions.</i></b>", "contact_title": "Contact Us", "contact_sub": "Begin your journey into the universe within — reach out today.", "email_title": "Email Us", "btn_send": "Send Mail", "call_title": "Call Us", "btn_call": "Call Now", "visit_title": "Visit Us", "btn_locate": "Locate", "footer": "&copy; 2026 Mind Universe Intelligence Systems", "type_mem_sub": "Archive of you", "type_foc_sub": "Laser of the mind", "type_log_sub": "Structure of thought", "type_cre_sub": "Birth of ideas", "type_emo_sub": "Ocean of feelings", "type_int_sub": "Silent compass", "type_wil_sub": "Inner engine", "type_awa_sub": "Light of presence", "type_emp_sub": "Bridge of hearts", "type_ima_sub": "Infinite canvas", "type_dis_sub": "Path of mastery", "type_flo_sub": "Peak state"}, "ur": {"tagline": "Andar ke kosmos ko explore karein.", "nav_home": "Home", "nav_services": "Dimensions", "nav_science": "Cosmos", "nav_about": "About", "nav_contact": "Rabta", "hero_title": "<span>Apne Andar Ke Universe</span> Ko Explore Karein", "hero_sub": "<b><i>Neuroscience ki buniyad par bana mind development platform jo focus, creativity, memory aur sukoon unlock karta hai — jaise andar ek poora universe ho.</i></b>", "hero_btn1": "Safar Shuru Karein", "hero_btn2": "Dimensions Dekhein", "about_title": "Mind Universe Ke Baare Mein", "about_desc": "<b><i>Hum neuroscience, cosmic inspiration aur cutting-edge technology ko mila kar aapke zehan ke infinite potential ko explore karwate hain — ek dimension ek waqt mein.</i></b>", "stat1": "Mind Explorers", "stat2": "Growth Rate", "stat3_title": "Global", "stat3": "Research Ke Mayar", "science_title": "Neuro-Cosmos Ki Taqat", "science_sub": "<b><i>Bharose-mand neuroscience aur psychology frameworks.</i></b>", "cred1_title": "Neuroscience Par Mabni", "cred1_desc": "Global mayar", "cred2_title": "Tasdeeq Shuda", "cred2_desc": "Scientific models", "cred3_title": "Privacy", "cred3_desc": "Data hifazat", "cred4_title": "Growth Focused", "cred4_desc": "Asal tabdeeli", "discover_title": "Aap Kya Daryaft Karenge", "discover_sub": "<b><i>Ordinary brain training se bahar, gehri mind-expanding experiences.</i></b>", "svc1_title": "Neural Training", "svc1_desc": "Zehan ki taqat barhayein.", "btn_start": "Shuru Karein", "svc2_title": "Dream Atlas", "svc2_desc": "Apne khwabon ko samjhein.", "btn_explore": "Daryaft Karein", "svc3_title": "Meditation Cosmos", "svc3_desc": "Andar sukoon payein.", "btn_begin": "Begin", "svc4_title": "Focus Gravity", "svc4_desc": "Gheri tawajjo.", "btn_enter": "Enter", "svc5_title": "Memory Nebula", "svc5_desc": "Kabhi na bhoolen.", "btn_unlock": "Unlock", "svc6_title": "Creative Orbits", "svc6_desc": "Takhayyul azad karein.", "btn_ignite": "Ignite", "mbti_title": "Zehan Ke 12 Dimensions", "mbti_sub": "<b><i>Har zehan ek universe hai — iske dimensions explore karein.</i></b>", "contact_title": "Rabta Karein", "contact_sub": "Andar ke universe ka safar aaj hi shuru karein — rabta karein.", "email_title": "Email Karein", "btn_send": "Mail Bhejein", "call_title": "Call Karein", "btn_call": "Abhi Call Karein", "visit_title": "Aain", "btn_locate": "Location Dekhein", "footer": "&copy; 2026 Mind Universe Intelligence Systems", "type_mem_sub": "Aap ka archive", "type_foc_sub": "Zehan ka laser", "type_log_sub": "Fikr ki structure", "type_cre_sub": "Khyalon ki paidaish", "type_emo_sub": "Jazbaat ka samandar", "type_int_sub": "Khamosh qutub-nama", "type_wil_sub": "Andar ka engine", "type_awa_sub": "Hazoori ki roshni", "type_emp_sub": "Dilon ka pul", "type_ima_sub": "Be-inteha canvas", "type_dis_sub": "Mastery ka rasta", "type_flo_sub": "Aala tareen haalat"}};
+function loadLang(){try{return localStorage.getItem('minduniverse_lang')||'en';}catch(e){return 'en';}}
+function saveLang(l){try{localStorage.setItem('minduniverse_lang',l);}catch(e){}}
+let currentLang = loadLang();
+function setLang(lang){
+    currentLang=lang;saveLang(lang);
+    document.getElementById('btn-en').classList.toggle('active',lang==='en');
+    document.getElementById('btn-ur').classList.toggle('active',lang==='ur');
+    document.querySelectorAll('[data-key]').forEach(el=>{
+        const key=el.getAttribute('data-key');
+        if(translations[lang]&&translations[lang][key]){el.innerHTML=translations[lang][key];}
+    });
+}
+document.addEventListener('DOMContentLoaded',()=>{setLang(currentLang);});
+
+/* ===== SCROLL REVEAL ===== */
+const observer=new IntersectionObserver(entries=>{
+ entries.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add("show");}
+ });
+},{threshold:.15,rootMargin:"0px 0px -50px 0px"});
+document.querySelectorAll(".fancy-head,.cred-item,.card").forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
